@@ -19,9 +19,11 @@
   },
   "homepage": "https://github.com/vonder-thailand/intern-backend#readme",
   "dependencies": {
+    "dotenv": "^10.0.0",
     "express": "^4.17.1",
     "jest": "^27.0.3",
     "lodash": "^4.17.21",
+    "mongoose": "^5.12.12",
     "nodemon": "^2.0.7"
   }
 }
