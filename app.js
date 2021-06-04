@@ -1,19 +1,29 @@
 const express = require("express");
+const { crateBook, findBookByName } = require("./src/functions/index");
+const connectToDatabase = require('./src/utils/mongo')
 const app = express();
 const port = 8080;
 
+const connectMongo = async (req, res, next) => {
+  await connectToDatabase();
+  next();
+};
+
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
+app.use(connectMongo);
 
-app.get("/test/:id/:count", (req, res) => {
-  console.log({ param: req.params });
-  console.log({ query: req.query });
-  res.send({ head: "Hello world" });
+app.get("/book/:name", async (req, res) => {
+  // console.log({ param: req.params });
+  // console.log({ query: req.query });
+  const bookData = await findBookByName(req.params.name)
+  res.send(bookData);
 });
 
-app.post("/demo", (req, res) => {
+app.post("/create/book", async (req, res) => {
   console.log("req: ", req.body);
-  res.send("Hello World!");
+  const book = await crateBook(req.body);
+  res.send(book);
 });
 
 app.put("/", (req, res) => {
