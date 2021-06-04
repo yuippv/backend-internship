@@ -5,6 +5,7 @@ const books = new Schema(
   {
     name: { type: String, default: "-" },
     price: { type: Number },
+    deleted_at: { type: Date }
   },
   {
     strict: false,
