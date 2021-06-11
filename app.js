@@ -22,11 +22,9 @@ app.use(connectMongo);
 //create user
 app.post("/user", async (req, res) => {
   try {
-    console.log("req: ", req.body);
-    const book = await crateBook(req.body);
-    res.send(book);
+    const user = await crateUser(req.body);
+    res.send(user);
   } catch (err) {
-    console.log("err: ", err);
     res.send(err);
   }
 });
