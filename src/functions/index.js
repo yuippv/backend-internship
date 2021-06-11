@@ -1,58 +1,103 @@
 // functions function structure
-const BookModel = require("../models/books.model");
+const UserModel = require("../models/user.model");
+const UserResult = require("../models/user.result");
+var mongoose = require('mongoose');
 
-module.exports.crateBook = async (input) => {
-  console.log("input: ", input);
-  const { name, price } = input;
-  // validate data
+module.exports.createUser = async (input) => {
+  const { name, lastname, username, email, password, image, isDeleted } = input;
+
   if (!name) {
     throw { message: "no name" };
   }
+  else if (!lastname) {
+    throw { message: "no lastname" };
+  }
+  else if (!username) {
+    throw { message: "no username" };
+  }
+  else if (!email) {
+    throw { message: "no email" };
+  }
+  else if (!password) {
+    throw { message: "no password" };
+  }
 
-  // name: { type: String, default: "-" },
-  // price: { type: Number },
+  return await UserModel.create({ name, lastname, username, email, password, image, isDeleted });
 
-  // create data
-  return BookModel.create({ name, price });
-};
+}
 
-module.exports.findBookByName = (input) => {
-  console.log("input: ", input);
-  // validate data
+module.exports.findUserById = async (input) => {
+  if (mongoose.Types.ObjectId.isValid(input)) {
+    return await UserModel.findOne({ _id: input, isDeleted: false });
+  }
+  else {
+    throw {
+      message: "user not found",
+      status: 404
+    };
+  }
+}
 
-  // name: { type: String, default: "-" },
-  // price: { type: Number },
+module.exports.updateUserById = async (payload, userId) => {
+  const { name, lastname, username, email, password, image } = payload;
+  if (!mongoose.Types.ObjectId.isValid(userId)) {
+    throw {
+      message: "Invalid ID",
+      status: 404
+    };
+  }
 
-  // create data
-  return BookModel.findOne({ name: input, deleted_at: { $exists: false } });
-};
+  const user = await UserModel.findOne({
+    _id: userId,
+    isDeleted: false
+  });
 
-module.exports.updateBookById = async (input) => {
-  const { _id, name, price } = input;
+  if (!user) {
+    throw { message: "user not found", status: 404 };
+  }
 
-  // validate data
-
-  // name: { type: String, default: "-" },
-  // price: { type: Number },
-
-  // create data
-  return await BookModel.findOneAndUpdate(
-    { _id },
-    { name, price },
+  return UserModel.findOneAndUpdate(
+    { _id: userId },
+    { name, lastname, username, email, password, image },
     { new: true, omitUndefined: true }
-  );
+  )
+
 };
 
-module.exports.deleteBookById = async (input) => {
-  const { _id } = input;
-  return await BookModel.findByIdAndDelete(_id);
-};
+module.exports.deleteUserById = async (userId) => {
+  if (!mongoose.Types.ObjectId.isValid(userId)) {
+    throw {
+      message: "Invalid ID",
+      status: 404
+    };
+  }
 
-module.exports.softDeleteBookById = async (input) => {
-  const { _id } = input;
-  return await BookModel.findOneAndUpdate(
-    { _id },
-    { deleted_at: new Date() },
+  const checkDelete = await UserModel.findOne({
+    _id: userId,
+    isDeleted: true
+  });
+
+  if (checkDelete) {
+    throw { message: "This user is already deleted" }
+  }
+
+  return UserModel.findOneAndUpdate(
+    { _id: userId },
+    {
+      delete_at: new Date(),
+      isDeleted: true
+    },
     { new: true }
-  );
-};
+  )
+}
+
+
+module.exports.createResultById = async (description, result, score, userid) => {
+  console.log(userid, description, result, score)
+  return await UserResult.create({ userid, description, result, score });
+}
+
+module.exports.getResultById = async (userid) => {
+
+  return await UserResult.find({ userid: userid });
+}

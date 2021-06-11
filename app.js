@@ -1,72 +1,108 @@
+require("dotenv").config();
 const express = require("express");
 const {
-  crateBook,
-  findBookByName,
-  updateBookById,
-  deleteBookById,
-  softDeleteBookById,
-} = require("./src/functions/index");
-const connectToDatabase = require("./src/utils/mongo");
-const app = express();
-const port = 8080;
+  createUser,
+  findUserById,
+  updateUserById,
+  deleteUserById,
+  createResultById,
+  getResultById
 
-const connectMongo = async (req, res, next) => {
-  await connectToDatabase();
-  next();
-};
+} = require("./src/functions/index");
+
+const connectToDatabase = require('./src/utils/mongo')
+const app = express();
+const port = 5000;
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
-app.use(connectMongo);
+connectToDatabase()
 
-// findbook
-app.get("/book/:namename", async (req, res) => {
-  // console.log({ param: req.params });
-  // console.log({ query: req.query });
+
+//create user
+app.post("/user", async (req, res) => {
   try {
-    const bookData = await findBookByName(req.params.namename);
-    res.send(bookData);
+    const user = await createUser(req.body);
+    res.send(user);
   } catch (err) {
     console.log("err: ", err);
-    res.send(err);
+    res.status(err.status || 500).send(err.message || "Internal Server Error");
   }
 });
 
-//create book
-app.post("/create/book", async (req, res) => {
+// find user by id
+app.get("/user/:id", async (req, res) => {
   try {
-    console.log("req: ", req.body);
-    const book = await crateBook(req.body);
-    res.send(book);
+    const userData = await findUserById(req.params.id);
+    res.send(userData);
   } catch (err) {
     console.log("err: ", err);
-    res.send(err);
+    res.status(err.status || 500).send(err.message || "Internal Server Error");
   }
 });
 
-//update book
-app.put("/edit/book", async (req, res) => {
+//update user by id
+app.put("/user/:_id", async (req, res) => {
   try {
-    const updateBook = await updateBookById(req.body);
-    res.send(updateBook);
+    const updateUser = await updateUserById(req.body, req.params._id);
+    res.send(updateUser);
   } catch (err) {
-    console.log("err: ", err);
-    res.send(err);
+    console.log("err:", err);
+    res.status(err.status || 500).send(err.message || "Internal Server Error");
+  }
+})
+
+app.delete("/user/:_id", async (req, res) => {
+  try {
+    const deleteUser = await deleteUserById(req.params._id);
+    res.send(deleteUser);
+  } catch (err) {
+    console.log("err:", err);
+    res.status(err.status || 500).send(err.message || "Internal Server Error");
+  }
+})
+app.post("/user/create/result/:id", async (req, res) => {
+  try {
+    const userid = req.params.id
+    const description = req.body.description
+    const result = req.body.result
+    const score = req.body.score
+    const user = await createResultById(description, result, score, userid);
+    res.send(user);
+  } catch (err) {
+    res.status(err.status || 500).send(err.message || "Internal Server Error");
   }
 });
 
-//delete book
-app.delete("/delete/book", async (req, res) => {
+app.get("/user/get/result/:id", async (req, res) => {
   try {
-    console.log("req: ", req.body);
-    const deleteBook = await softDeleteBookById(req.body);
-    res.send(deleteBook);
+    const userid = req.params.id
+
+    const user = await getResultById(userid);
+    res.send(user);
   } catch (err) {
-    console.log("err: ", err);
-    res.send(err);
+    res.status(err.status || 500).send(err.message || "Internal Server Error");
   }
 });
+
+
 
 app.listen(port, () => {
   console.log(`Example app listening at http://localhost:${port}`);
 });
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
