@@ -3,6 +3,7 @@ const UserModel = require("../models/user.model");
 const UserResult = require("../models/user.result");
 var mongoose = require('mongoose');
 
+
 module.exports.createUser = async (input) => {
   const { name, lastname, username, email, password, image, isDeleted } = input;
 
