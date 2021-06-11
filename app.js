@@ -9,14 +9,15 @@ const {
   getResultById
 
 } = require("./src/functions/index");
-const { connectMongo, authenFunction, generateAccessToken } = require('./src/middlewares')
+
+const connectToDatabase = require('./src/utils/mongo')
 const app = express();
-const port = 2020;
+const port = 5000;
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
-app.use(connectMongo);
-app.use(authenFunction);
+connectToDatabase()
+
 
 //create user
 app.post("/user", async (req, res) => {
