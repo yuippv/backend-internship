@@ -10,7 +10,7 @@ const users = new Schema(
     password: { type: String, default: "-" },
     image: { type: String, default: "-" },
     deleteAt: { type: Date },
-    isDeleted: { type: Boolean }
+    isDeleted: { type: Boolean, default: false }
   },
   {
     strict: false,

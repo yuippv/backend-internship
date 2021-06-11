@@ -1,10 +1,7 @@
 const express = require("express");
 const {
-  crateBook,
-  findBookByName,
-  updateBookById,
-  deleteBookById,
-  softDeleteBookById,
+  createUser,
+
 } = require("./src/functions/index");
 const connectToDatabase = require("./src/utils/mongo");
 const app = express();
@@ -22,10 +19,10 @@ app.use(connectMongo);
 //create user
 app.post("/user", async (req, res) => {
   try {
-    const user = await crateUser(req.body);
+    const user = await createUser(req.body);
     res.send(user);
   } catch (err) {
-    res.send(err);
+    res.status(err.status || 500).send(err.message || "Internal Server Error");
   }
 });
 
