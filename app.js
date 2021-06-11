@@ -12,7 +12,7 @@ const {
 
 const connectToDatabase = require('./src/utils/mongo')
 const app = express();
-const port = 8080;
+const port = 6060;
 
 const connectMongo = async (req, res, next) => {
   await connectToDatabase();
