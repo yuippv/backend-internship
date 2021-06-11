@@ -3,10 +3,10 @@ const Schema = mongoose.Schema;
 
 const results = new Schema(
   {
+    userid : {type : String , default:"-"},
     description: { type: String, default: "-" },
-    lastname: { type: String, default: "-" },
     result: { type: String, default: "-" },
-    score: { type: Number, default: "-" },
+    score: [{ type: Number, default: "-" }]
   },
   {
     strict: false,

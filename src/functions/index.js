@@ -1,5 +1,6 @@
 // functions function structure
 const UserModel = require("../models/user.model");
+const UserResult = require("../models/user.result");
 var mongoose = require('mongoose');
 
 module.exports.createUser = async (input) => {
@@ -23,4 +24,15 @@ module.exports.createUser = async (input) => {
 
   return await UserModel.create({ name, lastname, username, email, password, image });
 
+}
+
+
+module.exports.createResultById = async (description,result,score,userid) => {
+  console.log(userid,description, result, score)
+  return await UserResult.create({ userid,description, result, score});
+}
+
+module.exports.getResultById = async (userid) => {
+  
+  return await UserResult.find({ userid: userid});
 }
