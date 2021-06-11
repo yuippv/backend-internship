@@ -1,3 +1,4 @@
+require("dotenv").config();
 const express = require("express");
 const {
   createUser,
@@ -6,18 +7,14 @@ const {
   deleteUserById
 
 } = require("./src/functions/index");
-const connectToDatabase = require("./src/utils/mongo");
+const { connectMongo, authenFunction, generateAccessToken } = require('./src/middlewares')
 const app = express();
 const port = 8080;
-
-const connectMongo = async (req, res, next) => {
-  await connectToDatabase();
-  next();
-};
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(connectMongo);
+app.use(authenFunction);
 
 //create user
 app.post("/user", async (req, res) => {
