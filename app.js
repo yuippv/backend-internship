@@ -78,7 +78,7 @@ app.post("/user/create/result/:id", async (req, res) => {
   }
 });
 
-app.get("/user/get/result/:id", async (req, res) => {
+app.get("/user/result/:id", async (req, res) => {
   try {
     const userid = req.params.id
 
