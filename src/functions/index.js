@@ -52,7 +52,7 @@ module.exports.updateUserById = async (payload, userId) => {
     isDeleted: false
   });
 
-  if (!user) {
+  if (user == null) {
     throw { message: "user not found", status: 404 };
   }
 
