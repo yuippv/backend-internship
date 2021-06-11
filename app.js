@@ -1,3 +1,4 @@
+require("dotenv").config();
 const express = require("express");
 const {
   crateBook,
@@ -6,18 +7,14 @@ const {
   deleteBookById,
   softDeleteBookById,
 } = require("./src/functions/index");
-const connectToDatabase = require("./src/utils/mongo");
+const { connectMongo, authenFunction, generateAccessToken } = require('./src/middlewares')
 const app = express();
 const port = 8080;
-
-const connectMongo = async (req, res, next) => {
-  await connectToDatabase();
-  next();
-};
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(connectMongo);
+app.use(authenFunction);
 
 // findbook
 app.get("/book/:namename", async (req, res) => {
@@ -26,6 +23,27 @@ app.get("/book/:namename", async (req, res) => {
   try {
     const bookData = await findBookByName(req.params.namename);
     res.send(bookData);
+  } catch (err) {
+    console.log("err: ", err);
+    res.send(err);
+  }
+});
+
+app.get("/login", async (req, res) => {
+  try {
+    const jwtResponse = generateAccessToken(req.query.username);
+    res.send(jwtResponse);
+  } catch (err) {
+    console.log("err: ", err);
+    res.send(err);
+  }
+});
+
+
+app.get("/user", async (req, res) => {
+  try {
+    // do sth
+    res.send(req.username);
   } catch (err) {
     console.log("err: ", err);
     res.send(err);
