@@ -1,4 +1,5 @@
 require("dotenv").config();
+require('./src/middlewares/index');
 const express = require("express");
 const passport = require("passport");
 const jwt = require("jsonwebtoken");
@@ -100,19 +101,19 @@ app.post(
 
 //log in
 app.post("/login", async (req, res, next) => {
-  passport.authenticate("login", async (err, auth, info) => {
+  passport.authenticate("login", async (err, auths, info) => {
     try {
-      if (err || !auth) {
+      if (err || !auths) {
         const error = new Error("An error occurred.");
 
         return next(error);
       }
 
-      req.login(auth, { session: false }, async (error) => {
+      req.login(auths, { session: false }, async (error) => {
         if (error) return next(error);
 
-        const body = { _id: auth._id, email: auth.AID };
-        const token = jwt.sign({ auth: body }, "TOP_SECRET");
+        const body = { _id: auths._id, email: auths.AID };
+        const token = jwt.sign({ auths: body }, "TOP_SECRET");
 
         return res.json({ token });
       });

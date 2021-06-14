@@ -34,7 +34,7 @@ passport.use(
     },
     async (AID, Apassword, done) => {
       try {
-        const user = await UserModel.findOne({ AID });
+        const user = await AuthModel.findOne({ AID });
 
         if (!user) {
           return done(null, false, { message: "User not found" });
