@@ -3,7 +3,7 @@ const router = express.Router();
 const usersController = require("../controllers/usersController");
 
 router.post("/user", usersController.createUsers);
-//_id กับ id ????
+//_id กับ id ?
 router.get("/user/:_id", usersController.findUserById);
 router.put("/user/:_id", usersController.updateUserById);
 router.delete("/user/:_id", usersController.deleteUserById);
