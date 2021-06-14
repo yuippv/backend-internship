@@ -1,7 +1,12 @@
 // functions function structure
 const UserModel = require("../models/user.model");
 const UserResult = require("../models/user.result");
+const AdminModel = require("../models/admin.model");
+const CommentModel = require("../models/comment.model");
+const GuestModel = require("../models/guest.model")
+
 var mongoose = require('mongoose');
+const commentModel = require("../models/comment.model");
 
 
 module.exports.createUser = async (input) => {
@@ -53,7 +58,7 @@ module.exports.updateUserById = async (payload, userId) => {
     isDeleted: false
   });
 
-  if (!user) {
+  if (user == null) {
     throw { message: "user not found", status: 404 };
   }
 
@@ -93,12 +98,73 @@ module.exports.deleteUserById = async (userId) => {
 }
 
 
-module.exports.createResultById = async (description, result, score, userid) => {
-  console.log(userid, description, result, score)
-  return await UserResult.create({ userid, description, result, score });
+module.exports.createResultById = async (answers, userid) => {
+  
+    
+    const n = answers.length
+    let question = []
+    const result = [[0,9,16,24,33],[4,14,21,25,31],[6,18,23,28,32],[2,8,26,30,36],[1,10,19,29,39],[3,11,17,34,38],[7,13,20,27,35],[5,12,15,22,37]]
+  
+    if(n == 40){
+      for(let i = 0;i< result.length;i++){
+          let s = result[i].map(item => answers[item]).reduce((sum,number) => { return sum + number},0)
+          question.push(s)
+      }
+      
+      return await UserResult.create({userid,answers,result:question});
+    }
+    else
+      throw new Error("Please input appropriate size of answer(n must be equal to 40)")
+    
+     
 }
 
 module.exports.getResultById = async (userid) => {
 
   return await UserResult.find({ userid: userid });
+}
+
+module.exports.getAllResult = async () => {
+  return UserResult.find();
+}
+module.exports.createAdmin = async (input) => {
+  const { name, lastname, username, email, password, image, isDeleted } = input;
+  return await AdminModel.create({ name, lastname, username, email, password, image, isDeleted });
+}
+
+module.exports.getAdminById = async (input_id) => {
+  if (mongoose.Types.ObjectId.isValid(input_id)) {
+    return await AdminModel.findOne({
+      _id: input_id,
+      isDeleted: false
+    });
+  }
+  else {
+    throw {
+      message: "admin not found",
+      status: 404
+    };
+  }
+}
+
+module.exports.getAllAdmins = async () => {
+  return await AdminModel.find({
+    isDeleted: false
+  });
+}
+
+module.exports.getAllUsers = async () => {
+  return await UserModel.find({
+    isDeleted: false
+  });
+}
+
+module.exports.createCommnet = async (input) => {
+  const { comment_body, uid } = input;
+  return await CommentModel.create({ comment_body, uid });
+}
+
+module.exports.createGuest = async (input) => {
+  const { name } = input;
+  return await GuestModel.create({ name });
 }
