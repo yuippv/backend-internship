@@ -6,7 +6,8 @@ const {
   updateUserById,
   deleteUserById,
   createResultById,
-  getResultById
+  getResultById,
+  getAllResult
 
 } = require("./src/functions/index");
 
@@ -68,15 +69,25 @@ app.delete("/user/:_id", async (req, res) => {
 app.post("/user/create/result/:id", async (req, res) => {
   try {
     const userid = req.params.id
-    const description = req.body.description
-    const result = req.body.result
-    const score = req.body.score
-    const user = await createResultById(description, result, score, userid);
+    const answers = req.body.answers
+    const user = await createResultById(answers,userid);
     res.send(user);
   } catch (err) {
     res.status(err.status || 500).send(err.message || "Internal Server Error");
   }
 });
+
+
+app.get("/results", async (req, res) => {
+  try { 
+    const results = await getAllResult();
+    res.send(results);
+  } catch (err) {
+    res.status(err.status || 500).send(err.message || "Internal Server Error");
+  }
+});
+
+
 
 app.get("/user/result/:id", async (req, res) => {
   try {

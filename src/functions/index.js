@@ -92,12 +92,33 @@ module.exports.deleteUserById = async (userId) => {
 }
 
 
-module.exports.createResultById = async (description, result, score, userid) => {
-  console.log(userid, description, result, score)
-  return await UserResult.create({ userid, description, result, score });
+module.exports.createResultById = async (answers, userid) => {
+  
+    
+    const n = answers.length
+    let question = []
+    const result = [[0,9,16,24,33],[4,14,21,25,31],[6,18,23,28,32],[2,8,26,30,36],[1,10,19,29,39],[3,11,17,34,38],[7,13,20,27,35],[5,12,15,22,37]]
+  
+    if(n == 40){
+      for(let i = 0;i< result.length;i++){
+          let s = result[i].map(item => answers[item]).reduce((sum,number) => { return sum + number},0)
+          question.push(s)
+      }
+      
+      return await UserResult.create({userid,answers,result:question});
+    }
+    else
+      throw new Error("Please input appropriate size of answer(n must be equal to 40)")
+    
+     
 }
 
 module.exports.getResultById = async (userid) => {
 
   return await UserResult.find({ userid: userid });
+}
+
+module.exports.getAllResult = async () => {
+  return UserResult.find();
+
 }
