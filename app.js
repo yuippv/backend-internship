@@ -7,7 +7,13 @@ const {
   deleteUserById,
   createResultById,
   getResultById,
-  getAllResult
+  getAllResult,
+  createAdmin,
+  getAdminById,
+  getAllUsers,
+  createCommnet,
+  getAllAdmins,
+  createGuest
 
 } = require("./src/functions/index");
 
@@ -100,6 +106,65 @@ app.get("/user/result/:id", async (req, res) => {
   }
 });
 
+app.post("/admin", async (req, res) => {
+  try {
+    const admin = await createAdmin(req.body);
+    res.send(admin);
+  } catch (err) {
+    console.log("err: ", err);
+    res.status(err.status || 500).send(err.message || "Internal Server Error");
+  }
+});
+
+app.get("/admin/:_id", async (req, res) => {
+  try {
+    const admin = await getAdminById(req.params._id);
+    res.send(admin);
+  } catch (err) {
+    console.log("err: ", err);
+    res.status(err.status || 500).send(err.message || "Internal Server Error");
+  }
+})
+
+app.get("/admin", async (req, res) => {
+  try {
+    const admins = await getAllAdmins();
+    res.send(admins);
+  } catch (err) {
+    console.log("err: ", err);
+    res.status(err.status || 500).send(err.message || "Internal Server Error");
+  }
+})
+
+app.get("/user", async (req, res) => {
+  try {
+    const users = await getAllUsers();
+    res.send(users);
+  } catch (err) {
+    console.log("err: ", err);
+    res.status(err.status || 500).send(err.message || "Internal Server Error");
+  }
+})
+
+app.post("/comment", async (req, res) => {
+  try {
+    const comment = await createCommnet(req.body);
+    res.send(comment);
+  } catch (err) {
+    console.log("err: ", err);
+    res.status(err.status || 500).send(err.message || "Internal Server Error");
+  }
+});
+
+app.post("/guest", async (req, res) => {
+  try {
+    const guest = await createGuest(req.body);
+    res.send(guest);
+  } catch (err) {
+    console.log("err: ", err);
+    res.status(err.status || 500).send(err.message || "Internal Server Error");
+  }
+});
 
 
 app.listen(port, () => {
