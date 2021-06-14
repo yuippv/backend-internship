@@ -1,70 +1,48 @@
 const express = require("express");
-const {
-  crateBook,
-  findBookByName,
-  updateBookById,
-  deleteBookById,
-  softDeleteBookById,
-} = require("./src/functions/index");
-const connectToDatabase = require("./src/utils/mongo");
+const bookFunction = require("./src/functions/bookFunction");
+const connectDB = require("./src/utils/mongo");
 const app = express();
 const port = 8080;
 
-const connectMongo = async (req, res, next) => {
-  await connectToDatabase();
-  next();
-};
-
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
-app.use(connectMongo);
+app.use(async (req, res, next) => {
+  await connectDB();
+  next();
+});
 
-// findbook
-app.get("/book/:namename", async (req, res) => {
-  // console.log({ param: req.params });
-  // console.log({ query: req.query });
+app.get("/book/all", async (req, res, next) => {
   try {
-    const bookData = await findBookByName(req.params.namename);
-    res.send(bookData);
+    const books = await bookFunction.findAll();
+    res.send(books);
   } catch (err) {
-    console.log("err: ", err);
-    res.send(err);
+    next(err);
   }
 });
 
-//create book
-app.post("/create/book", async (req, res) => {
+app.get("/book/:id", async (req, res, next) => {
   try {
-    console.log("req: ", req.body);
-    const book = await crateBook(req.body);
-    res.send(book);
+    // TODO
   } catch (err) {
-    console.log("err: ", err);
-    res.send(err);
+    next();
   }
 });
 
-//update book
-app.put("/edit/book", async (req, res) => {
+app.post("/book", async (req, res, next) => {
   try {
-    const updateBook = await updateBookById(req.body);
-    res.send(updateBook);
+    const { name, price } = req.body;
+    const book = await bookFunction.create({ name, price });
+    res.status(201).send(book);
   } catch (err) {
-    console.log("err: ", err);
-    res.send(err);
+    next(err);
   }
 });
 
-//delete book
-app.delete("/delete/book", async (req, res) => {
-  try {
-    console.log("req: ", req.body);
-    const deleteBook = await softDeleteBookById(req.body);
-    res.send(deleteBook);
-  } catch (err) {
-    console.log("err: ", err);
-    res.send(err);
-  }
+app.use((err, req, res, next) => {
+  console.log("ERROR: ", err);
+  res
+    .status(err.statusCode || 500)
+    .send(err.message || "Internal Server Error");
 });
 
 app.listen(port, () => {

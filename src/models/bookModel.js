@@ -1,11 +1,12 @@
 const mongoose = require("mongoose");
 const Schema = mongoose.Schema;
 
-const books = new Schema(
+const book = new Schema(
   {
     name: { type: String, default: "-" },
-    price: { type: Number },
-    deleted_at: { type: Date }
+    price: { type: Number, index: true },
+    isDelete: { type: Boolean, index: true, default: false },
+    deleted_at: { type: Date },
   },
   {
     strict: false,
@@ -14,4 +15,4 @@ const books = new Schema(
   }
 );
 
-module.exports = mongoose.model("books", books);
+module.exports = mongoose.model("books", book);
