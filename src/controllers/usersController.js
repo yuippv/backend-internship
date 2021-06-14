@@ -1,5 +1,3 @@
-//ประกาศแต่ไม่ได้ใช้
-
 const {
   createUser,
   findUserById,
