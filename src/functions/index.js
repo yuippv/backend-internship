@@ -11,6 +11,7 @@ var mongoose = require("mongoose");
 module.exports.createUser = async (input) => {
   const { name, lastname, username, email, password, image, isDeleted } = input;
 
+  //create function handle error
   if (!name) {
     throw { message: "no name" };
   } else if (!lastname) {
@@ -35,6 +36,7 @@ module.exports.createUser = async (input) => {
 };
 
 module.exports.findUserById = async (input) => {
+  //mongoose.Types.ObjectId.isValid ใช้เยอะ ประกาศตัวแปรดีกว่า
   if (mongoose.Types.ObjectId.isValid(input)) {
     return await UserModel.findOne({ _id: input, isDeleted: false });
   } else {
@@ -133,6 +135,7 @@ module.exports.getResultById = async (userid) => {
 };
 
 module.exports.getAllResult = async () => {
+  // await
   return UserResult.find();
 };
 module.exports.createAdmin = async (input) => {
@@ -179,6 +182,7 @@ module.exports.createCommnet = async (input) => {
   return await CommentModel.create({ comment_body, uid });
 };
 
+// มีตัวเดียวรับเป็น parameter ได้เลย
 module.exports.createGuest = async (input) => {
   const { name } = input;
   return await GuestModel.create({ name });

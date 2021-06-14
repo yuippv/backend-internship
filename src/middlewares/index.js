@@ -2,7 +2,6 @@
 // const jwt = require("jsonwebtoken");
 // const connectToDatabase = require("../../src/utils/mongo");
 
-
 // module.exports.connectMongo = async (req, res, next) => {
 //   await connectToDatabase();
 //   next();
