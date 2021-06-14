@@ -1,7 +1,8 @@
 require("dotenv").config();
 require('./src/middlewares/index');
 const express = require("express");
-const passport = require("passport");
+const adminRoute = require("./src/Routes/admin");
+const userRoutes = require("./src/Routes/users");
 
 const connectToDatabase = require("./src/utils/mongo");
 const app = express();
@@ -34,6 +35,9 @@ app.get(
 );
 
 
+app.use(connectMongo);
+app.use(userRoutes);
+app.use(adminRoute);
 
 app.listen(port, () => {
   console.log(`Example app listening at http://localhost:${port}`);
