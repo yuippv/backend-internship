@@ -10,6 +10,8 @@ const {
   getAllUsers,
   createCommnet,
   createGuest,
+  createContent,
+  getAllContents,
 } = require("../functions/index");
 
 //create user
@@ -102,6 +104,27 @@ exports.getResultById = async (req, res) => {
     const user = await getResultById(userid);
     res.send(user);
   } catch (err) {
+    console.log("err: ", err);
+    res.status(err.status || 500).send(err.message || "Internal Server Error");
+  }
+};
+
+exports.postContent = async (req, res) => {
+  try {
+    const content = await createContent(req.body);
+    res.send(content);
+  } catch (err) {
+    console.log("err: ", err);
+    res.status(err.status || 500).send(err.message || "Internal Server Error");
+  }
+};
+
+exports.getAllContents = async (req, res) => {
+  try {
+    const contents = await getAllContents();
+    res.send(contents);
+  } catch (err) {
+    console.log("err: ", err);
     res.status(err.status || 500).send(err.message || "Internal Server Error");
   }
 };
