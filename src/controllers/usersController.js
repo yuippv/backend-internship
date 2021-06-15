@@ -1,3 +1,5 @@
+const mongoose = require("mongoose");
+
 const {
   createUser,
   findUserById,
@@ -16,7 +18,7 @@ const {
 exports.createUsers = async (req, res) => {
   try {
     const user = await createUser(req.body);
-    res.send(user); // .end()
+    res.send(user);
   } catch (err) {
     console.log("err: ", err);
     res.status(err.status || 500).send(err.message || "Internal Server Error");

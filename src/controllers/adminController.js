@@ -11,7 +11,7 @@ const {
 exports.getAllResult = async (req, res) => {
   try {
     const results = await getResultUsers();
-    res.send(results); // .end() ต่อเพื่อปิด session
+    res.send(results);
   } catch (err) {
     res.status(err.status || 500).send(err.message || "Internal Server Error");
   }

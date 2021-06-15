@@ -1,8 +1,10 @@
 require("dotenv").config();
 require('./src/middlewares/index');
 const express = require("express");
-const adminRoute = require("./src/Routes/admin");
-const userRoutes = require("./src/Routes/users");
+const multer  = require('multer')
+const upload = multer({ dest: 'uploads/' })
+const adminRoute = require("./src/Routes/admin")
+const userRoutes = require("./src/Routes/users")
 
 const connectToDatabase = require("./src/utils/mongo");
 const app = express();
