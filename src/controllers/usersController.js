@@ -28,7 +28,7 @@ exports.createUsers = async (req, res) => {
 // find user by id
 exports.findUserById = async (req, res) => {
   try {
-    const userData = await findUserById(req.params.id);
+    const userData = await findUserById(req.params._id);
     res.send(userData);
   } catch (err) {
     console.log("err: ", err);
@@ -58,7 +58,7 @@ exports.deleteUserById = async (req, res) => {
 };
 exports.createResultById = async (req, res) => {
   try {
-    const userid = req.params.id;
+    const userid = req.params._id;
     const answers = req.body.answers;
     const user = await createResultById(answers, userid);
     res.send(user);
@@ -99,7 +99,7 @@ exports.createGuest = async (req, res) => {
 
 exports.getResultById = async (req, res) => {
   try {
-    const userid = req.params.id;
+    const userid = req.params._id;
 
     const user = await getResultById(userid);
     res.send(user);
