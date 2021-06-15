@@ -18,6 +18,7 @@
   },
   "homepage": "https://github.com/vonder-thailand/intern-backend#readme",
   "dependencies": {
+    "aws-sdk": "^2.928.0",
     "bcrypt": "^5.0.1",
     "body-parser": "^1.19.0",
     "dotenv": "^10.0.0",
