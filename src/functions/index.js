@@ -135,7 +135,7 @@ module.exports.getResultById = async (userid) => {
   return await UserResult.find({ userid: userid });
 };
 
-module.exports.getAllResult = async () => {
+module.exports.getResultUsers = async () => {
   // await
   return UserResult.find();
 };
