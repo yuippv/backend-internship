@@ -2,9 +2,10 @@ require("dotenv").config();
 require("./src/middlewares/index");
 const express = require("express");
 const multer = require("multer");
+const upload = multer({ dest: "uploads/" });
 const adminRoute = require("./src/Routes/admin");
 const userRoutes = require("./src/Routes/users");
-
+const auth = require("./src/Routes/auth");
 const connectToDatabase = require("./src/utils/mongo");
 const app = express();
 const port = 5000;
@@ -31,10 +32,8 @@ const connectMongo = async (req, res, next) => {
   await connectToDatabase();
   next();
 };
-const auth = require("./src/Routes/auth");
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
-
 app.use(connectMongo);
 
 app.use("/", auth);

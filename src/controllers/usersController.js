@@ -11,6 +11,7 @@ const {
   createGuest,
   createContent,
   getAllContents,
+  getSortByTag,
 } = require("../functions/index");
 
 
@@ -123,6 +124,16 @@ exports.postContent = async (req, res) => {
 exports.getAllContents = async (req, res) => {
   try {
     const contents = await getAllContents();
+    res.send(contents);
+  } catch (err) {
+    console.log("err: ", err);
+    res.status(err.status || 500).send(err.message || "Internal Server Error");
+  }
+};
+
+exports.getSortByTag = async (req, res) => {
+  try {
+    const contents = await getSortByTag(req.body.tag);
     res.send(contents);
   } catch (err) {
     console.log("err: ", err);

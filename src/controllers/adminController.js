@@ -2,7 +2,7 @@
 const mongoose = require("mongoose");
 questionModel = require('../models/questions')
 const {
-  getResultUsers,
+  getAllResult,
   createAdmin,
   getAdminById: getAdminwithId,
   getAllAdmins: getAllAdminInSystem,
@@ -10,7 +10,7 @@ const {
 
 exports.getAllResult = async (req, res) => {
   try {
-    const results = await getResultUsers();
+    const results = await getAllResult();
     res.send(results);
   } catch (err) {
     res.status(err.status || 500).send(err.message || "Internal Server Error");

@@ -228,3 +228,11 @@ module.exports.getAllContents = async () => {
     isDeleted: false,
   });
 };
+
+module.exports.getSortByTag = async (tag) => {
+  return await ContentModel.find({
+    tag: {$in:tag}
+  });
+};
+
+

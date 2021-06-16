@@ -14,5 +14,6 @@ router.post("/guest", usersController.createGuest);
 router.get("/user/result/:_id", usersController.getResultById);
 router.post("/user/content", usersController.postContent);
 router.get("/user/content/get", usersController.getAllContents);
+router.post("/user/content/tag", usersController.getSortByTag);
 
 module.exports = router;
