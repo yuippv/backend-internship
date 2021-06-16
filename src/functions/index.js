@@ -8,7 +8,6 @@ const ContentModel = require("../models/content.model");
 
 var mongoose = require("mongoose");
 
-
 module.exports.createUser = async (input) => {
   const { name, lastname, username, email, password, image, isDeleted } = input;
 
@@ -100,35 +99,47 @@ module.exports.deleteUserById = async (userId) => {
   );
 };
 
-module.exports.createResultById = async (answers, userid) => {
-  const n = answers.length;
-  let question = [];
-  const result = [
-    [0, 9, 16, 24, 33],
-    [4, 14, 21, 25, 31],
-    [6, 18, 23, 28, 32],
-    [2, 8, 26, 30, 36],
-    [1, 10, 19, 29, 39],
-    [3, 11, 17, 34, 38],
-    [7, 13, 20, 27, 35],
-    [5, 12, 15, 22, 37],
-  ];
+module.exports.createResultById = async (results, userid) => {
+  let questions = results.length;
+  let category = {
+    "Word Smart": 0,
+    "Logic Smart": 0,
+    "Picture Smart": 0,
+    "Body Smart": 0,
+    "Music Smart": 0,
+    "People Smart": 0,
+    "Self Smart": 0,
+    "Nature Smart": 0,
+  };
 
-  if (n == 40) {
-    for (let i = 0; i < result.length; i++) {
-      let s = result[i]
-        .map((item) => answers[item])
-        .reduce((sum, number) => {
-          return sum + number;
-        }, 0);
-      question.push(s);
+  for (let i = 0; i < questions; i++) {
+    category_id = results[i]["categoryId"];
+    question_index = results[i]["questionIndex"];
+    score = results[i]["score"];
+    if (category_id == 1) {
+      category["Word Smart"] += score;
+    } else if (category_id == 2) {
+      category["Logic Smart"] += score;
+    } else if (category_id == 3) {
+      category["Picture Smart"] += score;
+    } else if (category_id == 4) {
+      category["Body Smart"] += score;
+    } else if (category_id == 5) {
+      category["Music Smart"] += score;
+    } else if (category_id == 6) {
+      category["People Smart"] += score;
+    } else if (category_id == 7) {
+      category["Self Smart"] += score;
+    } else if (category_id == 8) {
+      category["Nature Smart"] += score;
+    } else {
+      throw { message: "invalid category" };
     }
-
-    return await UserResult.create({ userid, answers, result: question });
-  } else
-    throw new Error(
-      "Please input appropriate size of answer(n must be equal to 40)"
-    );
+  }
+  return await UserResult.create({
+    userid: userid,
+    category: category,
+  });
 };
 
 module.exports.getResultById = async (userid) => {
