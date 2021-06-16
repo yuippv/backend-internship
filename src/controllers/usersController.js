@@ -132,7 +132,8 @@ exports.getAllContents = async (req, res) => {
 
 exports.getSortByTag = async (req, res) => {
   try {
-    const contents = await getSortByTag();
+    const tag = req.params.tag;
+    const contents = await getSortByTag(tag);
     res.send(contents);
   } catch (err) {
     console.log("err: ", err);

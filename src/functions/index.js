@@ -217,8 +217,10 @@ module.exports.getAllContents = async () => {
   });
 };
 
-module.exports.getSortByTag = async (input) => {
+module.exports.getSortByTag = async (tag) => {
   return await ContentModel.find({
-    tag: input,
-  }).exec();
+    tag: {$in:tag}
+  });
 };
+
+
