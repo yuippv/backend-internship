@@ -1,11 +1,10 @@
 const mongoose = require("mongoose");
 const Schema = mongoose.Schema;
 
-const books = new Schema(
+const results = new Schema(
   {
-    name: { type: String, default: "-" },
-    price: { type: Number },
-    deleted_at: { type: Date }
+    userid: { type: String, default: "-" },
+    category: [{ type: Object, default: "-" }],
   },
   {
     strict: false,
@@ -14,4 +13,4 @@ const books = new Schema(
   }
 );
 
-module.exports = mongoose.model("books", books);
+module.exports = mongoose.model("results", results);

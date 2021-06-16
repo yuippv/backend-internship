@@ -1,71 +1,66 @@
+require("dotenv").config();
+require("./src/middlewares/index");
 const express = require("express");
-const {
-  crateBook,
-  findBookByName,
-  updateBookById,
-  deleteBookById,
-  softDeleteBookById,
-} = require("./src/functions/index");
+const multer = require("multer");
+const adminRoute = require("./src/Routes/admin");
+const userRoutes = require("./src/Routes/users");
+
 const connectToDatabase = require("./src/utils/mongo");
 const app = express();
-const port = 8080;
+const port = 5000;
+
+const { uploadManyFile} =require('./src/utils/s3')
+
+const fileFilter = (req, file, cb) => {
+  if (
+    file.mimetype === "image/png" ||
+    file.mimetype === "image/jpg" ||
+    file.mimetype === "image/jpeg"
+  ) {
+    cb(null, true);
+  } else {
+    cb(null, false);
+  }
+};
+var fileLimits = {
+  files: 1, // allow only 1 file per request
+  fileSize: 1024 * 1024, // 1 MB (max file size)
+};
 
 const connectMongo = async (req, res, next) => {
   await connectToDatabase();
   next();
 };
-
+const auth = require("./src/Routes/auth");
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
+
 app.use(connectMongo);
 
-// findbook
-app.get("/book/:namename", async (req, res) => {
-  // console.log({ param: req.params });
-  // console.log({ query: req.query });
-  try {
-    const bookData = await findBookByName(req.params.namename);
-    res.send(bookData);
-  } catch (err) {
-    console.log("err: ", err);
-    res.send(err);
-  }
+app.use("/", auth);
+
+app.get("/profile", (req, res, next) => {
+  res.json({
+    message: "You made it to the secure route", 
+    user: req.user,
+    token: req.query.secret_token,
+  });
 });
 
-//create book
-app.post("/create/book", async (req, res) => {
-  try {
-    console.log("req: ", req.body);
-    const book = await crateBook(req.body);
-    res.send(book);
-  } catch (err) {
-    console.log("err: ", err);
-    res.send(err);
+app.post( "/images/:userId", multer({
+    dest: "uploads/",
+  }).array("photo", 10),
+  async (req, res) => {
+    const userId = req.params.userId
+    console.log("wi!")
+    const file = req.files
+    const result = await uploadManyFile(file,userId,"userResult")
+    console.log(result);
+    res.send(result); 
   }
-});
-
-//update book
-app.put("/edit/book", async (req, res) => {
-  try {
-    const updateBook = await updateBookById(req.body);
-    res.send(updateBook);
-  } catch (err) {
-    console.log("err: ", err);
-    res.send(err);
-  }
-});
-
-//delete book
-app.delete("/delete/book", async (req, res) => {
-  try {
-    console.log("req: ", req.body);
-    const deleteBook = await softDeleteBookById(req.body);
-    res.send(deleteBook);
-  } catch (err) {
-    console.log("err: ", err);
-    res.send(err);
-  }
-});
+);
+app.use(userRoutes);
+app.use(adminRoute);
 
 app.listen(port, () => {
   console.log(`Example app listening at http://localhost:${port}`);
