@@ -1,4 +1,3 @@
-
 const {
   createUser,
   findUserById,
@@ -13,8 +12,6 @@ const {
   getAllContents,
   getSortByTag,
 } = require("../functions/index");
-
-
 
 //create user
 exports.createUsers = async (req, res) => {
@@ -102,7 +99,6 @@ exports.createGuest = async (req, res) => {
 exports.getResultById = async (req, res) => {
   try {
     const userid = req.params._id;
-
     const user = await getResultById(userid);
     res.send(user);
   } catch (err) {
