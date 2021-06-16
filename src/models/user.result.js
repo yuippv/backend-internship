@@ -3,10 +3,8 @@ const Schema = mongoose.Schema;
 
 const results = new Schema(
   {
-    userid : {type : String , default:"-"},
-    answers: [{ type: Number, default: "-" }],
-    result: [{ type: Number, default: "-" }],
-    
+    userid: { type: String, default: "-" },
+    category: [{ type: Object, default: "-" }],
   },
   {
     strict: false,
@@ -14,15 +12,5 @@ const results = new Schema(
     timestamps: { createdAt: "created_at", updatedAt: "updated_at" },
   }
 );
-
-
-
-
-
-
-
-
-
-
 
 module.exports = mongoose.model("results", results);
