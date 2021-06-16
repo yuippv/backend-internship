@@ -8,7 +8,6 @@ const ContentModel = require("../models/content.model");
 
 var mongoose = require("mongoose");
 
-
 module.exports.createUser = async (input) => {
   const { name, lastname, username, email, password, image, isDeleted } = input;
 
@@ -216,4 +215,10 @@ module.exports.getAllContents = async () => {
   return await ContentModel.find({
     isDeleted: false,
   });
+};
+
+module.exports.getSortByTag = async (input) => {
+  return await ContentModel.find({
+    tag: input,
+  }).exec();
 };
