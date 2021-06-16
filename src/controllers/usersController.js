@@ -59,7 +59,7 @@ exports.deleteUserById = async (req, res) => {
 exports.createResultById = async (req, res) => {
   try {
     const userid = req.params._id;
-    const answers = req.body.answers;
+    const answers = req.body.question_data;
     const user = await createResultById(answers, userid);
     res.send(user);
   } catch (err) {
