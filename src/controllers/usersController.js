@@ -1,4 +1,3 @@
-const mongoose = require("mongoose");
 
 const {
   createUser,
@@ -13,6 +12,8 @@ const {
   createContent,
   getAllContents,
 } = require("../functions/index");
+
+
 
 //create user
 exports.createUsers = async (req, res) => {

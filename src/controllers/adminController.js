@@ -1,6 +1,6 @@
 // ประกาศแต่ไม่ได้ใช้
 const mongoose = require("mongoose");
-
+questionModel = require('../models/questions')
 const {
   getResultUsers,
   createAdmin,
@@ -41,6 +41,42 @@ exports.getAllAdmins = async (req, res) => {
   try {
     const admins = await getAllAdminInSystem();
     res.send(admins);
+  } catch (err) {
+    console.log("err: ", err);
+    res.status(err.status || 500).send(err.message || "Internal Server Error");
+  }
+};
+
+exports.postQuestion = async (req,res) => {
+  try {
+  
+    const question =  await questionModel.create(req.body);
+     res.send(question)
+
+  } catch (err) {
+    console.log("err: ", err);
+    res.status(err.status || 500).send(err.message || "Internal Server Error");
+  }
+};
+
+exports.getQuestions = async (req,res) => {
+  try {
+
+    const question =  await questionModel.find();
+     res.send(question)
+
+  } catch (err) {
+    console.log("err: ", err);
+    res.status(err.status || 500).send(err.message || "Internal Server Error");
+  }
+};
+
+exports.getQuestionByCat =  async (req,res) => {
+  try {
+    const catName = req.body.QCAT
+    const question =  await questionModel.find({QCAT : catName});
+     res.send(question)
+
   } catch (err) {
     console.log("err: ", err);
     res.status(err.status || 500).send(err.message || "Internal Server Error");
