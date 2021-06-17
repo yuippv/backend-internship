@@ -189,8 +189,8 @@ module.exports.getAllUsers = async () => {
 };
 
 module.exports.createCommnet = async (input) => {
-  const { comment_body, uid } = input;
-  return await CommentModel.create({ comment_body, uid });
+  const { comment_body } = input;
+  return await CommentModel.create({ comment_body, uid: input.uid });
 };
 
 // มีตัวเดียวรับเป็น parameter ได้เลย
