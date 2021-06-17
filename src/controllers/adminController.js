@@ -1,14 +1,14 @@
 questionModel = require("../models/questions");
+const { result } = require("lodash");
 const {
-  getAllResult,
   createAdmin,
   getAdminById: getAdminwithId,
   getAllAdmins: getAllAdminInSystem,
 } = require("../functions/index");
-
+const resultor = require('../models/user.result')
 exports.getAllResult = async (req, res) => {
   try {
-    const results = await getAllResult();
+    const results = await resultor.find()
     res.send(results);
   } catch (err) {
     res.status(err.status || 500).send(err.message || "Internal Server Error");
