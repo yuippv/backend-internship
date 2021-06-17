@@ -7,7 +7,7 @@ router.post("/user", usersController.createUsers);
 router.get("/user/:_id", usersController.findUserById);
 router.put("/user/:_id", usersController.updateUserById);
 router.delete("/user/:_id", usersController.deleteUserById);
-router.post("/user/create/result/:_id", usersController.createResultById);
+router.post("/user/result/:_id", usersController.createResultById);
 router.get("/user", usersController.getAllUsers);
 router.post("/comment", usersController.postComment);
 router.post("/guest", usersController.createGuest);
