@@ -19,20 +19,20 @@ aws.config.update({
 
 const s3  = new aws.S3()
 //upload a file to s3 
-async function uploadFile(file,userId)  {
-    const fileStream = fs.createReadStream(file.path)
-    const uploadParams = {
-        Bucket: bucketName,
-        Body: fileStream,
-        Key: "userAvatar/" + userId,
-        ContentType:  "image/jpeg",
-        ACL: "public-read",
-    }
+// async function uploadFile(file,userId)  {
+//     const fileStream = fs.createReadStream(file.path)
+//     const uploadParams = {
+//         Bucket: bucketName,
+//         Body: fileStream,
+//         Key: "userAvatar/" + userId,
+//         ContentType:  "image/jpeg",
+//         ACL: "public-read",
+//     }
     
     
-    return s3.upload(uploadParams).promise()
+//     return s3.upload(uploadParams).promise()
 
-}
+// }
 async function  uploadManyFile(files,userId,pathS3){
   const fileReturn = await Promise.all(
     files.map(async (item, index) => {
