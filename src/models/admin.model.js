@@ -16,6 +16,7 @@ const admins = new Schema(
         strict: false,
         versionKey: false,
         timestamps: { createdAt: "created_at", updatedAt: "updated_at" },
+        
     }
 );
 

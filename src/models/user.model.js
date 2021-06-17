@@ -3,7 +3,7 @@ const Schema = mongoose.Schema;
 
 const users = new Schema(
   {
-    name: { type: String, default: "-" },
+    name: { type: String, default: "-",  },
     lastname: { type: String, default: "-" },
     username: { type: String, default: "-" },
     email: { type: String, default: "-" },
@@ -13,6 +13,7 @@ const users = new Schema(
     isDeleted: { type: Boolean, default: false }
   },
   {
+    unique: true,
     strict: false,
     versionKey: false,
     timestamps: { createdAt: "created_at", updatedAt: "updated_at" },
