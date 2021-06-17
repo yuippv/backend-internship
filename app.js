@@ -1,5 +1,5 @@
 require("dotenv").config();
-require("./src/middlewares/index");
+require("./src/middlewares/auth");
 const express = require("express");
 const multer = require("multer");
 const adminRoute = require("./src/routes/admin");
