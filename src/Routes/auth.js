@@ -4,31 +4,31 @@ const jwt = require("jsonwebtoken");
 
 const router = express.Router();
 
-//sign up
 router.post(
   "/signup",
   passport.authenticate("signup", { session: false }),
-  async (req, res, next) => {
+  async (req, res) => {
     res.json({
       message: "Signup successful",
       user: req.user,
     });
   }
 );
+
 router.post("/login", async (req, res, next) => {
-  passport.authenticate("login", async (err, auths, info) => {
+  passport.authenticate("login", async (err, auth, info) => {
     try {
-      if (err || !auths) {
+      if (err || !auth) {
         const error = new Error("An error occurred.");
 
         return next(error);
       }
 
-      req.login(auths, { session: false }, async (error) => {
+      req.login(auth, { session: false }, async (error) => {
         if (error) return next(error);
 
-        const body = { _id: auths._id, email: auths.AID };
-        const token = jwt.sign({ auths: body }, "TOP_SECRET");
+        const body = { _id: auth._id, username: auth.username };
+        const token = jwt.sign({ auth: body }, "TOP_SECRET");
 
         return res.json({ token });
       });
@@ -37,4 +37,18 @@ router.post("/login", async (req, res, next) => {
     }
   })(req, res, next);
 });
+
+router.get("/profile", (req, res) => {
+  res.json({
+    message: "You made it to the secure route",
+    user: req.user,
+    token: req.query.secret_token,
+  });
+});
+
+router.get("/logout", (req, res) => {
+  req.logout();
+  res.redirect("/");
+});
+
 module.exports = router;

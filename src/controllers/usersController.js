@@ -1,4 +1,3 @@
-
 const {
   createUser,
   findUserById,
@@ -13,8 +12,6 @@ const {
   getAllContents,
   getSortByTag,
 } = require("../functions/index");
-
-
 
 //create user
 exports.createUsers = async (req, res) => {
@@ -69,7 +66,7 @@ exports.createResultById = async (req, res) => {
   }
 };
 
-exports.getAllUsers = async (req, res) => {
+exports.getAllUsers = async (res) => {
   try {
     const users = await getAllUsers();
     res.send(users);
@@ -121,7 +118,7 @@ exports.postContent = async (req, res) => {
   }
 };
 
-exports.getAllContents = async (req, res) => {
+exports.getAllContents = async (res) => {
   try {
     const contents = await getAllContents();
     res.send(contents);

@@ -1,6 +1,4 @@
-// ประกาศแต่ไม่ได้ใช้
-const mongoose = require("mongoose");
-questionModel = require('../models/questions')
+const questionModel = require("../models/questions");
 const {
   getAllResult,
   createAdmin,
@@ -8,7 +6,7 @@ const {
   getAllAdmins: getAllAdminInSystem,
 } = require("../functions/index");
 
-exports.getAllResult = async (req, res) => {
+exports.getAllResult = async (res) => {
   try {
     const results = await getAllResult();
     res.send(results);
@@ -37,7 +35,7 @@ exports.getAdminById = async (req, res) => {
   }
 };
 
-exports.getAllAdmins = async (req, res) => {
+exports.getAllAdmins = async (res) => {
   try {
     const admins = await getAllAdminInSystem();
     res.send(admins);
@@ -47,36 +45,31 @@ exports.getAllAdmins = async (req, res) => {
   }
 };
 
-exports.postQuestion = async (req,res) => {
+exports.postQuestion = async (req, res) => {
   try {
-  
-    const question =  await questionModel.create(req.body);
-     res.send(question)
-
+    const question = await questionModel.create(req.body);
+    res.send(question);
   } catch (err) {
     console.log("err: ", err);
     res.status(err.status || 500).send(err.message || "Internal Server Error");
   }
 };
 
-exports.getQuestions = async (req,res) => {
+exports.getQuestions = async (res) => {
   try {
-
-    const question =  await questionModel.find();
-     res.send(question)
-
+    const question = await questionModel.find();
+    res.send(question);
   } catch (err) {
     console.log("err: ", err);
     res.status(err.status || 500).send(err.message || "Internal Server Error");
   }
 };
 
-exports.getQuestionByCat =  async (req,res) => {
+exports.getQuestionByCat = async (req, res) => {
   try {
-    const catName = req.body.QCAT
-    const question =  await questionModel.find({QCAT : catName});
-     res.send(question)
-
+    const catName = req.body.QCAT;
+    const question = await questionModel.find({ QCAT: catName });
+    res.send(question);
   } catch (err) {
     console.log("err: ", err);
     res.status(err.status || 500).send(err.message || "Internal Server Error");
