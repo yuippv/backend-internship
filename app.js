@@ -2,9 +2,9 @@ require("dotenv").config();
 require("./src/middlewares/index");
 const express = require("express");
 const multer = require("multer");
-const adminRoute = require("./src/Routes/admin");
-const userRoutes = require("./src/Routes/users");
-const authRoutes = require("./src/Routes/auth");
+const adminRoute = require("./src/routes/admin");
+const userRoutes = require("./src/routes/users");
+const authRoutes = require("./src/routes/auth");
 const connectToDatabase = require("./src/utils/mongo");
 const app = express();
 const port = 5000;
@@ -36,13 +36,14 @@ app.use(express.urlencoded({ extended: false }));
 app.use(connectMongo);
 
 app.use("/", authRoutes);
-
+//Buffer better
 app.post(
   "/images/:userId",
   multer({
     dest: "uploads/",
   }).array("photo", 10),
   async (req, res) => {
+    //J calling
     const userId = req.params.userId
     const file = req.files
     const result = await uploadManyFile(file,userId,"userResult")
