@@ -1,5 +1,4 @@
-questionModel = require("../models/questions");
-const { result } = require("lodash");
+const questionModel = require("../models/questions");
 const {
   createAdmin,
   getAdminById: getAdminwithId,
@@ -35,7 +34,7 @@ exports.getAdminById = async (req, res) => {
   }
 };
 
-exports.getAllAdmins = async (req, res) => {
+exports.getAllAdmins = async (res) => {
   try {
     const admins = await getAllAdminInSystem();
     res.send(admins);
@@ -55,7 +54,7 @@ exports.postQuestion = async (req, res) => {
   }
 };
 
-exports.getQuestions = async (req, res) => {
+exports.getQuestions = async (res) => {
   try {
     const question = await questionModel.find();
     res.send(question);

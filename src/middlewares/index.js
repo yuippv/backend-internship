@@ -1,20 +1,19 @@
 const passport = require("passport");
 const localStrategy = require("passport-local").Strategy;
 const AuthModel = require("../models/auth.model");
-const JWTstrategy = require('passport-jwt').Strategy;
-const ExtractJWT = require('passport-jwt').ExtractJwt;
+const JWTstrategy = require("passport-jwt").Strategy;
+const ExtractJWT = require("passport-jwt").ExtractJwt;
 
-//handle sign up 
 passport.use(
   "signup",
   new localStrategy(
     {
-      usernameField: "AID",
-      passwordField: "Apassword",
+      usernameField: "username",
+      passwordField: "password",
     },
-    async (AID, Apassword, done) => {
+    async (username, password, done) => {
       try {
-        const user = await AuthModel.create({ AID, Apassword });
+        const user = await AuthModel.create({ username, password });
 
         return done(null, user);
       } catch (error) {
@@ -24,23 +23,22 @@ passport.use(
   )
 );
 
-//handle login
 passport.use(
   "login",
   new localStrategy(
     {
-        usernameField: "AID",
-        passwordField: "Apassword",
+      usernameField: "username",
+      passwordField: "password",
     },
-    async (AID, Apassword, done) => {
+    async (username, password, done) => {
       try {
-        const user = await AuthModel.findOne({ AID });
+        const user = await AuthModel.findOne({ username });
 
         if (!user) {
           return done(null, false, { message: "User not found" });
         }
 
-        const validate = await user.isValidPassword(Apassword);
+        const validate = await user.isValidPassword(password);
 
         if (!validate) {
           return done(null, false, { message: "Wrong Password" });
@@ -55,18 +53,17 @@ passport.use(
 );
 
 passport.use(
-    new JWTstrategy(
-      {
-        secretOrKey: 'TOP_SECRET',
-        jwtFromRequest: ExtractJWT.fromUrlQueryParameter('secret_token')
-      },
-      async (token, done) => {
-        try {
-          return done(null, token.user);
-        } catch (error) {
-          done(error);
-        }
+  new JWTstrategy(
+    {
+      secretOrKey: "TOP_SECRET",
+      jwtFromRequest: ExtractJWT.fromUrlQueryParameter("secret_token"),
+    },
+    async (token, done) => {
+      try {
+        return done(null, token.user);
+      } catch (error) {
+        done(error);
       }
-    )
-  );
-  
+    }
+  )
+);

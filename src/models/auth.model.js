@@ -4,12 +4,12 @@ const bcrypt = require("bcrypt");
 const Schema = mongoose.Schema;
 
 const AuthSchema = new Schema({
-  AID: {
+  username: {
     type: String,
     required: true,
     unique: true,
   },
-  Apassword: {
+  password: {
     type: String,
     required: true,
   },
@@ -17,17 +17,16 @@ const AuthSchema = new Schema({
 
 //hash password
 AuthSchema.pre("save", async function (next) {
-  const AID = this;
-  const hash = await bcrypt.hash(this.Apassword, 10);
-
-  this.Apassword = hash;
+  const auth = this;
+  const hash = await bcrypt.hash(auth.password, 10);
+  this.password = hash;
   next();
 });
 
 //valid password
-AuthSchema.methods.isValidPassword = async function (Apassword) {
-  const AID = this;
-  const compare = await bcrypt.compare(Apassword, AID.Apassword);
+AuthSchema.methods.isValidPassword = async function (password) {
+  const auth = this;
+  const compare = await bcrypt.compare(password, auth.password);
   return compare;
 };
 

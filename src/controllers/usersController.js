@@ -66,7 +66,7 @@ exports.createResultById = async (req, res) => {
   }
 };
 
-exports.getAllUsers = async (req, res) => {
+exports.getAllUsers = async (res) => {
   try {
     const users = await getAllUsers();
     res.send(users);
@@ -117,7 +117,7 @@ exports.postContent = async (req, res) => {
   }
 };
 
-exports.getAllContents = async (req, res) => {
+exports.getAllContents = async (res) => {
   try {
     const contents = await getAllContents();
     res.send(contents);
