@@ -32,7 +32,9 @@ router.post("/login", async (req, res, next) => {
           username: auth.username,
           role: auth.role,
         };
-        const token = jwt.sign({ auth: body }, "TOP_SECRET");
+        const token = jwt.sign({ auth: body }, "TOP_SECRET", {
+          expiresIn: "10",
+        });
 
         return res.json({ token });
       });

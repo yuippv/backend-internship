@@ -1,13 +1,13 @@
-const questionModel = require("../models/questions");
+const questionModel = require("../models/questions.model");
 const {
   createAdmin,
   getAdminById: getAdminwithId,
   getAllAdmins: getAllAdminInSystem,
 } = require("../functions/index");
-const resultor = require('../models/user.result')
+const resultor = require("../models/user.result");
 exports.getAllResult = async (req, res) => {
   try {
-    const results = await resultor.find()
+    const results = await resultor.find();
     res.send(results);
   } catch (err) {
     res.status(err.status || 500).send(err.message || "Internal Server Error");
