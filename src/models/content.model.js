@@ -10,9 +10,9 @@ const contents = new Schema(
     comment_id: [{ type: String, default: "-" }],
     author_name: { type: String, default: "-" },
     author_id: { type: String, defalut: "-" },
-    tag:   [String], defalut: ["-"],
+    tag: { type: [String], defalut: ["-"] },
     image: { type: String, default: "-" },
-    isDeleted: { type: Boolean, default: false }
+    isDeleted: { type: Boolean, default: false },
   },
   {
     strict: false,
