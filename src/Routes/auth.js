@@ -27,7 +27,11 @@ router.post("/login", async (req, res, next) => {
       req.login(auth, { session: false }, async (error) => {
         if (error) return next(error);
 
-        const body = { _id: auth._id, username: auth.username };
+        const body = {
+          _id: auth._id,
+          username: auth.username,
+          role: auth.role,
+        };
         const token = jwt.sign({ auth: body }, "TOP_SECRET");
 
         return res.json({ token });
@@ -41,7 +45,7 @@ router.post("/login", async (req, res, next) => {
 router.get("/profile", (req, res) => {
   res.json({
     message: "You made it to the secure route",
-    user: req.user,
+    username: req.username,
     token: req.query.secret_token,
   });
 });
