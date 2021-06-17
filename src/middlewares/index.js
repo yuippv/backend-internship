@@ -1,22 +1,69 @@
-// middlewares function structure
-// const jwt = require("jsonwebtoken");
-// const connectToDatabase = require("../../src/utils/mongo");
+const passport = require("passport");
+const localStrategy = require("passport-local").Strategy;
+const AuthModel = require("../models/auth.model");
+const JWTstrategy = require("passport-jwt").Strategy;
+const ExtractJWT = require("passport-jwt").ExtractJwt;
 
+passport.use(
+  "signup",
+  new localStrategy(
+    {
+      usernameField: "username",
+      passwordField: "password",
+    },
+    async (username, password, done) => {
+      try {
+        const user = await AuthModel.create({ username, password });
 
-// module.exports.connectMongo = async (req, res, next) => {
-//   await connectToDatabase();
-//   next();
-// };
+        return done(null, user);
+      } catch (error) {
+        done(error);
+      }
+    }
+  )
+);
 
-// module.exports.authenFunction = (req, res, next) => {
-//   if (req.headers.authorization) {
-//     const authorization = req.headers.authorization.split(" ")[1];
-//     const decoded = jwt.verify(authorization, process.env.TOKEN_SECRET);
-//     req.username = decoded.username;
-//   }
-//   next();
-// };
+passport.use(
+  "login",
+  new localStrategy(
+    {
+      usernameField: "username",
+      passwordField: "password",
+    },
+    async (username, password, done) => {
+      try {
+        const user = await AuthModel.findOne({ username });
 
-// module.exports.generateAccessToken = (username) => {
-//     return jwt.sign({ username }, process.env.TOKEN_SECRET, { expiresIn: 36000 });
-//   };
+        if (!user) {
+          return done(null, false, { message: "User not found" });
+        }
+
+        const validate = await user.isValidPassword(password);
+
+        if (!validate) {
+          return done(null, false, { message: "Wrong Password" });
+        }
+
+        return done(null, user, { message: "Logged in Successfully" });
+      } catch (error) {
+        return done(error);
+      }
+    }
+  )
+);
+
+passport.use(
+  new JWTstrategy(
+    {
+      secretOrKey: "TOP_SECRET",
+      jwtFromRequest: ExtractJWT.fromUrlQueryParameter("secret_token"),
+    },
+    async (token, done) => {
+      try {
+        return done(null, token.user);
+      } catch (error) {
+        done(error);
+      }
+    }
+  )
+);

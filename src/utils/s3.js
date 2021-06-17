@@ -1,14 +1,8 @@
 
-
 const path = require("path");
 const fs = require('fs')
 const aws = require("aws-sdk");
-const {AWS_BUCKET_NAME} = process.env
-
-const bucketRegion  = process.env.AWS_BUCKET_REGION 
-const bucketKey     =  process.env.AWS_ACCESS_KEY 
-const bucket_secret = process.env.SECRET_ACCESS_KEY 
-
+const {AWS_BUCKET_NAME,AWS_BUCKET_REGION,AWS_ACCESS_KEY,SECRET_ACCESS_KEY} = process.env
 
 
 aws.config.setPromisesDependency();
