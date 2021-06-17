@@ -201,6 +201,7 @@ module.exports.createGuest = async (input) => {
 
 module.exports.createContent = async (input) => {
   const {
+    content_body,
     title,
     likes,
     uid_likes,
@@ -211,6 +212,7 @@ module.exports.createContent = async (input) => {
     image,
   } = input;
   return await ContentModel.create({
+    content_body,
     title,
     likes,
     uid_likes,
