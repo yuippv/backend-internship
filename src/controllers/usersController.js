@@ -66,7 +66,7 @@ exports.createResultById = async (req, res) => {
   }
 };
 
-exports.getAllUsers = async (res) => {
+exports.getAllUsers = async (req, res) => {
   try {
     const users = await getAllUsers();
     res.send(users);
