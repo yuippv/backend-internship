@@ -7,9 +7,9 @@ const {AWS_BUCKET_NAME,AWS_BUCKET_REGION,AWS_ACCESS_KEY,SECRET_ACCESS_KEY} = pro
 
 aws.config.setPromisesDependency();
 aws.config.update({
-  accessKeyId: bucketKey,
-  secretAccessKey: bucket_secret,
-  region: bucketRegion,
+  accessKeyId: AWS_ACCESS_KEY,
+  secretAccessKey: SECRET_ACCESS_KEY,
+  region: AWS_BUCKET_REGION,
   
 });
 
