@@ -147,8 +147,7 @@ module.exports.getResultById = async (userid) => {
 };
 
 module.exports.getResultUsers = async () => {
-  // await
-  return UserResult.find();
+  return await UserResult.find();
 };
 module.exports.createAdmin = async (input) => {
   const { name, lastname, username, email, password, image, isDeleted } = input;
@@ -231,8 +230,6 @@ module.exports.getAllContents = async () => {
 
 module.exports.getSortByTag = async (tag) => {
   return await ContentModel.find({
-    tag: {$in:tag}
+    tag: { $in: tag },
   });
 };
-
-
