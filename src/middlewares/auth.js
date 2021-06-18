@@ -16,7 +16,7 @@ passport.use(
       try {
         const name = req.body.name;
         const email = req.body.email;
-        const role = req.bo;
+        const role = req.body.role;
         const user = await AuthModel.create({
           username,
           password,

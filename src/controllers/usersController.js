@@ -12,7 +12,6 @@ const {
   getAllContents,
   getSortByTag,
 } = require("../functions/index");
-const jwt = require("jsonwebtoken");
 
 // find user by id
 exports.findUserById = async (req, res) => {
