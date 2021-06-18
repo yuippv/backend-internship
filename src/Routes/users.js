@@ -6,13 +6,25 @@ const auth = require("../middlewares/authVerify");
 router.get("/user/find", auth.authMiddleware, usersController.findUserById);
 router.put("/user", auth.authMiddleware, usersController.updateUserById);
 router.delete("/user", auth.authMiddleware, usersController.deleteUserById);
-router.post("/user/result",auth.authMiddleware,usersController.createResultById);
+router.post(
+  "/user/result",
+  auth.authMiddleware,
+  usersController.createResultById
+);
 router.get("/user", auth.authMiddleware, usersController.getAllUsers);
 router.post("/comment", auth.authMiddleware, usersController.postComment);
 router.post("/guest", auth.authMiddleware, usersController.createGuest);
 router.get("/user/result", auth.authMiddleware, usersController.getResultById);
 router.post("/user/content", auth.authMiddleware, usersController.postContent);
-router.get("/user/content/get",auth.authMiddleware,usersController.getAllContents);
-router.post("/user/content/tag",auth.authMiddleware,usersController.getSortByTag);
+router.get(
+  "/user/content/get",
+  auth.authMiddleware,
+  usersController.getAllContents
+);
+router.post(
+  "/user/content/tag",
+  auth.authMiddleware,
+  usersController.getSortByTag
+);
 
 module.exports = router;

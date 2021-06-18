@@ -47,7 +47,7 @@ router.post("/login", async (req, res, next) => {
 
 router.get(
   "/profile",
-  passport.authenticate("jwt", { session: false }),  //ถามพี่เพิ่ม
+  passport.authenticate("jwt", { session: false }), //ถามพี่เพิ่ม
   (req, res) => {
     const decoded = jwt.verify(req.query.secret_token, process.env.Secret_Key);
     res.json({

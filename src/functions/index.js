@@ -1,6 +1,6 @@
 // functions function structure
 const UserModel = require("../models/user.model");
-const UserResult = require("../models/user.result");
+const UserResult = require("../models/result.model");
 const AdminModel = require("../models/admin.model");
 const CommentModel = require("../models/comment.model");
 const GuestModel = require("../models/guest.model");
@@ -114,18 +114,6 @@ module.exports.getResultById = async (userid) => {
 module.exports.getResultUsers = async () => {
   return await UserResult.find();
 };
-module.exports.createAdmin = async (input) => {
-  const { name, lastname, username, email, password, image, isDeleted } = input;
-  return await AdminModel.create({
-    name,
-    lastname,
-    username,
-    email,
-    password,
-    image,
-    isDeleted,
-  });
-};
 
 module.exports.getAdminById = async (input_id) => {
   if (mongoose.Types.ObjectId.isValid(input_id)) {
@@ -141,14 +129,9 @@ module.exports.getAdminById = async (input_id) => {
   }
 };
 
-module.exports.getAllAdmins = async () => {
-  return await AdminModel.find({
-    isDeleted: false,
-  });
-};
-
 module.exports.getAllUsers = async () => {
   return await AuthModel.find({
+    role: "user",
     isDeleted: false,
   });
 };
@@ -189,5 +172,27 @@ module.exports.getAllContents = async () => {
 module.exports.getSortByTag = async (tag) => {
   return await ContentModel.find({
     tag: { $in: tag },
+  });
+};
+
+module.exports.findAdminById = async (input) => {
+  if (mongoose.Types.ObjectId.isValid(input)) {
+    return await AuthModel.findOne({
+      _id: input,
+      role: "admin",
+      isDeleted: false,
+    });
+  } else {
+    throw {
+      message: "user not found",
+      status: 404,
+    };
+  }
+};
+
+module.exports.findAllAdmins = async () => {
+  return await AuthModel.find({
+    role: "admin",
+    isDeleted: false,
   });
 };
