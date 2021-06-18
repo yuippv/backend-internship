@@ -35,7 +35,7 @@ module.exports.createUser = async (input) => {
   });
 };
 
-module.exports.findUserById = async (input) => {
+module.exports.findUserById =  async (input) => {
   //mongoose.Types.ObjectId.isValid ใช้เยอะ ประกาศตัวแปรดีกว่า
   if (mongoose.Types.ObjectId.isValid(input)) {
     return await UserModel.findOne({ _id: input, isDeleted: false });
