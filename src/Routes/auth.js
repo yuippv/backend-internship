@@ -45,13 +45,19 @@ router.post("/login", async (req, res, next) => {
   })(req, res, next);
 });
 
-router.get("/profile", (req, res) => {
-  res.json({
-    message: "You made it to the secure route",
-    username: req.auth,
-    token: req.query.secret_token,
-  });
-});
+router.get(
+  "/profile",
+  passport.authenticate("jwt", { session: false }),
+  (req, res) => {
+    const decodedJwtPayload = jwt.decode(token, { complete: true });
+    res.json({
+      message: "You made it to the secure route",
+      user: decodedJwtPayload.payload.auth,
+      token: req.query.secret_token,
+    });
+    console.log(req);
+  }
+);
 
 router.get("/logout", (req, res) => {
   req.logout();

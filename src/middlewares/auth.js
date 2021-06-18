@@ -1,3 +1,4 @@
+require("dotenv").config();
 const passport = require("passport");
 const localStrategy = require("passport-local").Strategy;
 const AuthModel = require("../models/auth.model");
@@ -54,12 +55,12 @@ passport.use(
 passport.use(
   new Strategy(
     {
-      secretOrKey: "TOP_SECRET",
+      secretOrKey: process.env.Secret_Key,
       jwtFromRequest: ExtractJwt.fromUrlQueryParameter("secret_token"),
     },
     async (token, done) => {
       try {
-        return done(null, token.user);
+        return done(null, token.auth);
       } catch (error) {
         done(error);
       }
