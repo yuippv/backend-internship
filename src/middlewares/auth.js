@@ -10,10 +10,17 @@ passport.use(
     {
       usernameField: "username",
       passwordField: "password",
+      nameField: "name",
+      emailField: "email",
     },
-    async (username, password, done) => {
+    async (username, password, name, email, done) => {
       try {
-        const user = await AuthModel.create({ username, password });
+        const user = await AuthModel.create({
+          username,
+          password,
+          name,
+          email,
+        });
 
         return done(null, user);
       } catch (error) {
