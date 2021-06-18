@@ -5,6 +5,7 @@ const {
   getAllAdmins: getAllAdminInSystem,
 } = require("../functions/index");
 const resultor = require("../models/user.result");
+
 exports.getAllResult = async (req, res) => {
   try {
     const results = await resultor.find();

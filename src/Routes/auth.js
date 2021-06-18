@@ -1,3 +1,4 @@
+require("dotenv").config();
 const express = require("express");
 const passport = require("passport");
 const jwt = require("jsonwebtoken");
@@ -16,7 +17,7 @@ router.post(
 );
 
 router.post("/login", async (req, res, next) => {
-  passport.authenticate("login", async (err, auth, info) => {
+  passport.authenticate("login", async (err, auth) => {
     try {
       if (err || !auth) {
         const error = new Error("An error occurred.");
@@ -32,8 +33,8 @@ router.post("/login", async (req, res, next) => {
           username: auth.username,
           role: auth.role,
         };
-        const token = jwt.sign({ auth: body }, "TOP_SECRET", {
-          expiresIn: "10",
+        const token = jwt.sign({ auth: body }, process.env.Secret_Key, {
+          expiresIn: "1h",
         });
 
         return res.json({ token });
@@ -44,13 +45,19 @@ router.post("/login", async (req, res, next) => {
   })(req, res, next);
 });
 
-router.get("/profile", (req, res) => {
-  res.json({
-    message: "You made it to the secure route",
-    username: req.username,
-    token: req.query.secret_token,
-  });
-});
+router.get(
+  "/profile",
+  passport.authenticate("jwt", { session: false }),
+  (req, res) => {
+    const decodedJwtPayload = jwt.decode(token, { complete: true });
+    res.json({
+      message: "You made it to the secure route",
+      user: decodedJwtPayload.payload.auth,
+      token: req.query.secret_token,
+    });
+    console.log(req);
+  }
+);
 
 router.get("/logout", (req, res) => {
   req.logout();
