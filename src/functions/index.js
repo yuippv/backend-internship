@@ -5,40 +5,14 @@ const AdminModel = require("../models/admin.model");
 const CommentModel = require("../models/comment.model");
 const GuestModel = require("../models/guest.model");
 const ContentModel = require("../models/content.model");
+const AuthModel = require("../models/auth.model");
 
 var mongoose = require("mongoose");
 
-module.exports.createUser = async (input) => {
-  const { name, lastname, username, email, password, image, isDeleted } = input;
-
-  //create function handle error
-  if (!name) {
-    throw { message: "no name" };
-  } else if (!lastname) {
-    throw { message: "no lastname" };
-  } else if (!username) {
-    throw { message: "no username" };
-  } else if (!email) {
-    throw { message: "no email" };
-  } else if (!password) {
-    throw { message: "no password" };
-  }
-
-  return await UserModel.create({
-    name,
-    lastname,
-    username,
-    email,
-    password,
-    image,
-    isDeleted,
-  });
-};
-
-module.exports.findUserById =  async (input) => {
+module.exports.findUserById = async (input) => {
   //mongoose.Types.ObjectId.isValid ใช้เยอะ ประกาศตัวแปรดีกว่า
   if (mongoose.Types.ObjectId.isValid(input)) {
-    return await UserModel.findOne({ _id: input, isDeleted: false });
+    return await AuthModel.findOne({ _id: input, isDeleted: false });
   } else {
     throw {
       message: "user not found",
@@ -48,7 +22,7 @@ module.exports.findUserById =  async (input) => {
 };
 
 module.exports.updateUserById = async (payload, userId) => {
-  const { name, lastname, username, email, password, image } = payload;
+  const { name, username, email } = payload;
   if (!mongoose.Types.ObjectId.isValid(userId)) {
     throw {
       message: "Invalid ID",
@@ -56,7 +30,7 @@ module.exports.updateUserById = async (payload, userId) => {
     };
   }
 
-  const user = await UserModel.findOne({
+  const user = await AuthModel.findOne({
     _id: userId,
     isDeleted: false,
   });
@@ -65,9 +39,9 @@ module.exports.updateUserById = async (payload, userId) => {
     throw { message: "user not found", status: 404 };
   }
 
-  return UserModel.findOneAndUpdate(
+  return AuthModel.findOneAndUpdate(
     { _id: userId },
-    { name, lastname, username, email, password, image },
+    { name, username, email },
     { new: true, omitUndefined: true }
   );
 };
@@ -80,16 +54,7 @@ module.exports.deleteUserById = async (userId) => {
     };
   }
 
-  const checkDelete = await UserModel.findOne({
-    _id: userId,
-    isDeleted: true,
-  });
-
-  if (checkDelete) {
-    throw { message: "This user is already deleted" };
-  }
-
-  return UserModel.findOneAndUpdate(
+  return AuthModel.findOneAndUpdate(
     { _id: userId },
     {
       delete_at: new Date(),
@@ -183,14 +148,14 @@ module.exports.getAllAdmins = async () => {
 };
 
 module.exports.getAllUsers = async () => {
-  return await UserModel.find({
+  return await AuthModel.find({
     isDeleted: false,
   });
 };
 
-module.exports.createCommnet = async (input) => {
+module.exports.createCommnet = async (input, user_id) => {
   const { comment_body } = input;
-  return await CommentModel.create({ comment_body, uid: input.uid });
+  return await CommentModel.create({ comment_body, uid: user_id });
 };
 
 // มีตัวเดียวรับเป็น parameter ได้เลย
@@ -199,26 +164,17 @@ module.exports.createGuest = async (input) => {
   return await GuestModel.create({ name });
 };
 
-module.exports.createContent = async (input) => {
-  const {
-    content_body,
-    title,
-    likes,
-    uid_likes,
-    comment_id,
-    author_name,
-    author_id,
-    tag,
-    image,
-  } = input;
+module.exports.createContent = async (input, id, name) => {
+  const { content_body, title, likes, uid_likes, comment_id, tag, image } =
+    input;
   return await ContentModel.create({
     content_body,
     title,
     likes,
     uid_likes,
     comment_id,
-    author_name,
-    author_id,
+    author_username: name,
+    author_id: id,
     tag,
     image,
   });
