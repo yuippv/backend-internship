@@ -10,11 +10,12 @@ passport.use(
     {
       usernameField: "username",
       passwordField: "password",
-      nameField: "name",
-      emailField: "email",
+      passReqToCallback: true,
     },
-    async (username, password, name, email, done) => {
+    async (req, username, password, done) => {
       try {
+        var name = req.body.name;
+        var email = req.body.email;
         const user = await AuthModel.create({
           username,
           password,
