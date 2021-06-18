@@ -17,16 +17,9 @@ const jwt = require("jsonwebtoken");
 // find user by id
 exports.findUserById = async (req, res) => {
   try {
-    const token = req.body.token;
-    jwt.verify(token, "secretApp", async (err, authData) => {
-      if (err) {
-        res.sendStatus(403);
-      } else {
-        const user_info = authData.auth;
-        const user = await findUserById(user_info._id);
-        res.send(user);
-      }
-    });
+    const { userId } = req;
+    const user = await findUserById(userId);
+    res.send(user);
   } catch (err) {
     console.log("err: ", err);
     res.status(err.status || 500).send(err.message || "Internal Server Error");
@@ -36,16 +29,9 @@ exports.findUserById = async (req, res) => {
 //update user by id
 exports.updateUserById = async (req, res) => {
   try {
-    const token = req.body.token;
-    jwt.verify(token, "secretApp", async (err, authData) => {
-      if (err) {
-        res.sendStatus(403);
-      } else {
-        const user_info = authData.auth;
-        const updateUser = await updateUserById(req.body, user_info._id);
-        res.send(updateUser);
-      }
-    });
+    const { userId } = req;
+    const updateUser = await updateUserById(req.body, userId);
+    res.send(updateUser);
   } catch (err) {
     console.log("err:", err);
     res.status(err.status || 500).send(err.message || "Internal Server Error");
@@ -54,16 +40,9 @@ exports.updateUserById = async (req, res) => {
 
 exports.deleteUserById = async (req, res) => {
   try {
-    const token = req.body.token;
-    jwt.verify(token, "secretApp", async (err, authData) => {
-      if (err) {
-        res.sendStatus(403);
-      } else {
-        const user_info = authData.auth;
-        const deleteUser = await deleteUserById(user_info._id);
-        res.send(deleteUser);
-      }
-    });
+    const { userId } = req;
+    const deleteUser = await deleteUserById(userId);
+    res.send(deleteUser);
   } catch (err) {
     console.log("err:", err);
     res.status(err.status || 500).send(err.message || "Internal Server Error");
@@ -71,17 +50,10 @@ exports.deleteUserById = async (req, res) => {
 };
 exports.createResultById = async (req, res) => {
   try {
-    const token = req.body.token;
-    jwt.verify(token, "secretApp", async (err, authData) => {
-      if (err) {
-        res.sendStatus(403);
-      } else {
-        const user_info = authData.auth;
-        const answers = req.body.question_data;
-        const user = await createResultById(answers, user_info._id);
-        res.send(user);
-      }
-    });
+    const { userId } = req;
+    const answers = req.body.question_data;
+    const user = await createResultById(answers, userId);
+    res.send(user);
   } catch (err) {
     res.status(err.status || 500).send(err.message || "Internal Server Error");
   }
@@ -99,16 +71,9 @@ exports.getAllUsers = async (req, res) => {
 
 exports.postComment = async (req, res) => {
   try {
-    const token = req.body.token;
-    jwt.verify(token, "secretApp", async (err, authData) => {
-      if (err) {
-        res.sendStatus(403);
-      } else {
-        const user_info = authData.auth;
-        const comment = await createCommnet(req.body, user_info._id);
-        res.send(comment);
-      }
-    });
+    const { userId } = req;
+    const comment = await createCommnet(req.body, userId);
+    res.send(comment);
   } catch (err) {
     console.log("err: ", err);
     res.status(err.status || 500).send(err.message || "Internal Server Error");
@@ -127,16 +92,9 @@ exports.createGuest = async (req, res) => {
 
 exports.getResultById = async (req, res) => {
   try {
-    const token = req.body.token;
-    jwt.verify(token, "secretApp", async (err, authData) => {
-      if (err) {
-        res.sendStatus(403);
-      } else {
-        const user_info = authData.auth;
-        const user = await getResultById(user_info._id);
-        res.send(user);
-      }
-    });
+    const { userId } = req;
+    const user = await getResultById(userId);
+    res.send(user);
   } catch (err) {
     console.log("err: ", err);
     res.status(err.status || 500).send(err.message || "Internal Server Error");
@@ -145,20 +103,9 @@ exports.getResultById = async (req, res) => {
 
 exports.postContent = async (req, res) => {
   try {
-    const token = req.body.token;
-    jwt.verify(token, "secretApp", async (err, authData) => {
-      if (err) {
-        res.sendStatus(403);
-      } else {
-        const user_info = authData.auth;
-        const content = await createContent(
-          req.body,
-          user_info._id,
-          user_info.username
-        );
-        res.send(content);
-      }
-    });
+    const { userId, username } = req;
+    const content = await createContent(req.body, userId, username);
+    res.send(content);
   } catch (err) {
     console.log("err: ", err);
     res.status(err.status || 500).send(err.message || "Internal Server Error");
