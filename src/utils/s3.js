@@ -1,19 +1,15 @@
-require("dotenv").config()
 
 const path = require("path");
 const fs = require('fs')
 const aws = require("aws-sdk");
-const bucketName    = process.env.AWS_BUCKET_NAME 
-const bucketRegion  = process.env.AWS_BUCKET_REGION 
-const bucketKey     =  process.env.AWS_ACCESS_KEY 
-const bucket_secret = process.env.SECRET_ACCESS_KEY 
+const {AWS_BUCKET_NAME,AWS_BUCKET_REGION,AWS_ACCESS_KEY,SECRET_ACCESS_KEY} = process.env
 
 
 aws.config.setPromisesDependency();
 aws.config.update({
-  accessKeyId: bucketKey,
-  secretAccessKey: bucket_secret,
-  region: bucketRegion,
+  accessKeyId: AWS_ACCESS_KEY,
+  secretAccessKey: SECRET_ACCESS_KEY,
+  region: AWS_BUCKET_REGION,
   
 });
 
@@ -37,10 +33,10 @@ async function  uploadManyFile(files,userId,pathS3){
   const fileReturn = await Promise.all(
     files.map(async (item, index) => {
       const filePath = path.join(__dirname, "..","..", "uploads", item.filename);
-      const key = pathS3 + "/" + userId + "/" + item.filename
+      const key = pathS3 + "/" + userId + "/" + item.filename + '.jpeg'
      
       var params = {
-        Bucket: bucketName,
+        Bucket: AWS_BUCKET_NAME,
         Key: key,
         Body: fs.createReadStream(filePath),
         ContentType: "image/jpeg",

@@ -10,4 +10,5 @@ router.post("/questions",adminController.postQuestion);
 router.get("/questions",adminController.getQuestions);
 router.get("/questions/cat",adminController.getQuestionByCat);
 
+
 module.exports = router;
