@@ -49,13 +49,13 @@ router.get(
   "/profile",
   passport.authenticate("jwt", { session: false }),
   (req, res) => {
+
     const decoded = jwt.verify(req.query.secret_token, process.env.Secret_Key);
     res.json({
       message: "You made it to the secure route",
       user: decoded.auth["_id"],
       token: req.query.secret_token,
     });
-    console.log(req);
   }
 );
 
