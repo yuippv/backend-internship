@@ -4,7 +4,7 @@ const usersController = require("../controllers/usersController");
 
 router.post("/user", usersController.createUsers);
 //_id กับ id ?
-router.get("/user/:_id", usersController.findUserById);
+router.get("/user/find", usersController.findUserById);
 router.put("/user/:_id", usersController.updateUserById);
 router.delete("/user/:_id", usersController.deleteUserById);
 router.post("/user/result/:_id", usersController.createResultById);

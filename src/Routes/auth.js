@@ -34,7 +34,7 @@ router.post("/login", async (req, res, next) => {
           role: auth.role,
         };
         const token = jwt.sign({ auth: body }, process.env.Secret_Key, {
-          expiresIn: "1h",
+          expiresIn: "1d",
         });
 
         return res.json({ token });
@@ -47,7 +47,7 @@ router.post("/login", async (req, res, next) => {
 
 router.get(
   "/profile",
-  passport.authenticate("jwt", { session: false }),
+  passport.authenticate("jwt", { session: false }),  //ถามพี่เพิ่ม
   (req, res) => {
 
     const decoded = jwt.verify(req.query.secret_token, process.env.Secret_Key);

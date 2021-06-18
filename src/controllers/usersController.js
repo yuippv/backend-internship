@@ -12,6 +12,7 @@ const {
   getAllContents,
   getSortByTag,
 } = require("../functions/index");
+const jwt = require("jsonwebtoken");
 
 //create user
 exports.createUsers = async (req, res) => {
@@ -27,7 +28,20 @@ exports.createUsers = async (req, res) => {
 // find user by id
 exports.findUserById = async (req, res) => {
   try {
-    const userData = await findUserById(req.params._id);
+    const token = req.body.token
+    // const userData = await findUserById(req.params._id);
+    jwt.verify(token,"secretApp",async (err,authData)  =>  {
+        if(err){
+            res.sendStatus(403);
+
+        }
+        else{
+
+            const user_info = authData.auth
+            const user =   await findUserById(user_info._id)
+            res.send(user)
+        }
+    })
     res.send(userData);
   } catch (err) {
     console.log("err: ", err);
