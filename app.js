@@ -37,20 +37,20 @@ app.use(connectMongo);
 
 app.use("/", authRoutes);
 //Buffer better
-app.post(
-  "/images/:userId",
-  multer({
-    dest: "uploads/",
-  }).array("photo", 10),
-  async (req, res) => {
-    //J calling
-    const userId = req.params.userId;
-    const file = req.files;
-    const result = await uploadManyFile(file, userId, "userResult");
-    console.log(result);
-    res.send(result);
-  }
-);
+// app.post(
+//   "/images/:userId",
+//   multer({
+//     dest: "uploads/",
+//   }).array("photo", 10),
+//   async (req, res) => {
+//     //J calling
+//     const userId = req.params.userId;
+//     const file = req.files;
+//     const result = await uploadManyFile(file, userId, "userResult");
+//     console.log(result);
+//     res.send(result);
+//   }
+// );
 
 app.use(userRoutes);
 app.use(adminRoute);

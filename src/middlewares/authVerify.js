@@ -3,7 +3,8 @@ require("dotenv").config();
 
 module.exports.authMiddleware = async (req, res, next) => {
   try {
-    const token = req.body.token;
+    const authHeader = req.get('Authorization');
+    const token = authHeader.split(' ')[1];
     jwt.verify(token, process.env.Secret_Key, async (err, authData) => {
       if (err) {
         res.sendStatus(403);
