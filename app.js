@@ -55,6 +55,12 @@ app.use("/", authRoutes);
 app.use(userRoutes);
 app.use(adminRoute);
 
+app.use((err, req, res, next) => {
+  console.log("ERROR: ", err);
+  res.status(err.status || 500).json({ message: "Server fail!", error : err.message });
+});
+
+
 app.listen(port, () => {
   console.log(`Example app listening at http://localhost:${port}`);
 });

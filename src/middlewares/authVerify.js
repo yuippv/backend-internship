@@ -5,6 +5,7 @@ module.exports.authMiddleware = async (req, res, next) => {
   try {
     const authHeader = req.get('Authorization');
     const token = authHeader.split(' ')[1];
+    
     jwt.verify(token, process.env.Secret_Key, async (err, authData) => {
       if (err) {
         res.sendStatus(403);
@@ -17,7 +18,7 @@ module.exports.authMiddleware = async (req, res, next) => {
     });
     return next();
   } catch (err) {
-    console.log("err: ", err);
-    res.status(err.status || 500).send(err.message || "Internal Server Error");
+    err.message = "Did not specify token id, please add token in header with 'Bearer' "
+    next(err)
   }
 };
