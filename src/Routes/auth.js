@@ -33,11 +33,14 @@ router.post("/login", async (req, res, next) => {
           username: auth.username,
           role: auth.role,
         };
-        const token = jwt.sign({ auth: body }, process.env.Secret_Key, {
-          expiresIn: "1d",
+        const accessToken = jwt.sign({ auth: body }, process.env.Secret_Key, {
+          expiresIn: "14d",
+        });
+        const refreshtoken = jwt.sign({ auth: body }, process.env.Secret_Key, {
+          expiresIn: "1800",
         });
 
-        return res.json({ token });
+        return res.json({ accessToken, refreshtoken });
       });
     } catch (error) {
       return next(error);
