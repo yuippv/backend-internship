@@ -14,13 +14,15 @@ passport.use(
     },
     async (req, username, password, done) => {
       try {
-        const name = req.body.name;
+        const firstName = req.body.firstName;
+        const lastName = req.body.lastName;
         const email = req.body.email;
         const role = req.body.role;
         const user = await AuthModel.create({
           username,
           password,
-          name,
+          firstName,
+          lastName,
           email,
           role,
         });

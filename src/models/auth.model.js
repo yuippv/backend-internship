@@ -19,7 +19,11 @@ const AuthSchema = new Schema(
       enum: ["user", "admin"],
       default: "user",
     },
-    name: {
+    firstName: {
+      type: String,
+      default: "-",
+    },
+    lastName: {
       type: String,
       default: "-",
     },
