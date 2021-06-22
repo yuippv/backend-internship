@@ -14,7 +14,6 @@ const {
 } = require("../functions/index");
 const { uploadManyFile } = require("../utils/s3");
 
-
 // find user by id
 exports.findUserById = async (req, res) => {
   try {
@@ -133,14 +132,12 @@ exports.getSortByTag = async (req, res) => {
   }
 };
 
-
-
 exports.postImage = async (req, res) => {
   //J calling
-  const { userId,files} = req;
-  console.log(userId)
-  console.log("flies",files)
+  const { userId, files } = req;
+  console.log(userId);
+  console.log("flies", files);
   const result = await uploadManyFile(files, userId, "userResult");
   console.log(result);
   res.send(result);
-}
+};
