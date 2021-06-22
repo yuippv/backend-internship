@@ -5,6 +5,7 @@ const AdminModel = require("../models/admin.model");
 const CommentModel = require("../models/comment.model");
 const GuestModel = require("../models/guest.model");
 const ContentModel = require("../models/content.model");
+const QuestionModel = require("../models/questions.model");
 const AuthModel = require("../models/auth.model");
 
 var mongoose = require("mongoose");
@@ -191,8 +192,54 @@ module.exports.findAdminById = async (input) => {
 };
 
 module.exports.findAllAdmins = async () => {
-  return await AuthModel.find({
+  const admins = await AuthModel.find({
     role: "admin",
     isDeleted: false,
   });
+  if (!admins.length) {
+    throw {
+      message: "admin not found",
+      status: 404,
+    };
+  }
+  return admins;
+};
+
+module.exports.postQuestion = async (input) => {
+  const question_no = input.question_no;
+  const question_category = input.question_category;
+  const check_question_no = await QuestionModel.find({
+    question_no: question_no,
+  });
+
+  //available question no.
+  if (!check_question_no.length) {
+    //invalid category
+    if (
+      question_category != "Word Smart" &&
+      question_category != "Logic Smart" &&
+      question_category != "Picture Smart" &&
+      question_category != "Body Smart" &&
+      question_category != "Nature Smart" &&
+      question_category != "Self Smart" &&
+      question_category != "People Smart" &&
+      question_category != "Music Smart"
+    ) {
+      throw {
+        message: "Invalid category",
+        status: 400,
+      };
+    }
+    //available question no. and valid category
+    else {
+      const question = await QuestionModel.create(input);
+      return question;
+    }
+    //question no. is not available
+  } else {
+    throw {
+      message: "Duplicate question number",
+      status: 409,
+    };
+  }
 };
