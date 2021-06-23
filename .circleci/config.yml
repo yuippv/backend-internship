@@ -18,3 +18,9 @@ jobs:
       - run:
           name: Public IP of the current CircleCI runner
           command: PUBLIC_IP=$(curl ipinfo.io/ip)
+      - run:
+          name: AWS Region
+          command: AWS_REGION=ap-southeast-1
+      - run:
+          name: security group ID
+          command: sg-084a022ccf9377168
