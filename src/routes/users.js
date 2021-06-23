@@ -4,7 +4,6 @@ const usersController = require("../controllers/usersController");
 const auth = require("../middlewares/authVerify");
 const multer = require("multer");
 
-
 router.post(
   "/images",
   auth.authMiddleware,
@@ -34,6 +33,11 @@ router.post(
   "/user/content/tag",
   auth.authMiddleware,
   usersController.getSortByTag
+);
+router.put(
+  "/user/content",
+  auth.authMiddleware,
+  usersController.contentIsLiked
 );
 
 module.exports = router;
