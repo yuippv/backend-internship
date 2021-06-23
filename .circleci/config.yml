@@ -6,7 +6,7 @@ general:
 jobs:
   build:
     docker:
-      - image: circleci/openjdk:8-jdk
+      - image: 'circleci/node:14.17.0'
     steps:
       - checkout
       - run: npm install
