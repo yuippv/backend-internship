@@ -15,25 +15,13 @@ jobs:
           command: npm build 
       - checkout
       - run:
-          name: Install aws CLI
+          name: deploy
           command: |
             curl "https://s3.amazonaws.com/aws-cli/awscli-bundle.zip" -o "awscli-bundle.zip"
             unzip awscli-bundle.zip
             ./awscli-bundle/install -b ~/bin/aws
-      - run:
-          name: Public IP of the current CircleCI runner
-          command: PUBLIC_IP=$(curl ipinfo.io/ip)
-      - run:
-          name: AWS Region
-          command: AWS_REGION=ap-southeast-1
-      - run:
-          name: security group ID
-          command: SG_ID=sg-084a022ccf9377168
-      - run:
-          name: ingress rule
-          command: |
-              ~/bin/aws ec2 authorize-security-group-ingress \
-              --group-id $SG_ID \
-              --protocol tcp \
-              --port 22 \
-              --cidr $PUBLIC_IP/24
+            PUBLIC_IP=$(curl ipinfo.io/ip)
+            AWS_REGION=ap-southeast-1
+            SG_ID=sg-084a022ccf9377168
+            ~/bin/aws ec2 authorize-security-group-ingress --region $AWS_REGION --group-id $SG_ID \
+              --protocol tcp --port 22 --cidr $PUBLIC_IP/24
