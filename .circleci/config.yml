@@ -24,9 +24,6 @@ jobs:
           name: publie ip
           command: PUBLIC_IP=$(curl ipinfo.io/ip)
       - run:
-          name: aws region
-          command: AWS_REGION=ap-southeast-1
-      - run:
           name: security group id
           command: SG_ID=sg-084a022ccf9377168
       - run:
