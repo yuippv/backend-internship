@@ -11,6 +11,7 @@ const {
   createContent,
   getAllContents,
   getSortByTag,
+  contentIsLiked,
 } = require("../functions/index");
 const { uploadManyFile } = require("../utils/s3");
 
@@ -90,7 +91,7 @@ exports.getAllUsers = async (req, res, next) => {
   }
 };
 
-exports.postComment = async (req, res,next) => {
+exports.postComment = async (req, res, next) => {
   try {
     const { userId } = req;
     const comment = await createCommnet(req.body, userId);
@@ -114,7 +115,7 @@ exports.createGuest = async (req, res) => {
   }
 };
 
-exports.getResultById = async (req, res,next) => {
+exports.getResultById = async (req, res, next) => {
   try {
     const { userId } = req;
     const user = await getResultById(userId);
@@ -166,4 +167,13 @@ exports.postImage = async (req, res) => {
   const result = await uploadManyFile(files, userId, "userResult");
   console.log(result);
   res.send(result);
+};
+
+exports.contentIsLiked = async (req, res, next) => {
+  try {
+    const content = await contentIsLiked(req.userId, req.body.content_id);
+    res.send(content);
+  } catch (err) {
+    next(err);
+  }
 };
