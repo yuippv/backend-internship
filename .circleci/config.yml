@@ -1,0 +1,17 @@
+version: 2
+general:
+  branches:
+    only:
+      - develop
+jobs:
+  build:
+    docker:
+      - image: circleci/openjdk:8-jdk
+    steps:
+      - checkout
+      - run:
+          name: Install aws CLI
+          command: |
+	     curl "https://s3.amazonaws.com/aws-cli/awscli-bundle.zip" -o "awscli-bundle.zip"
+             unzip awscli-bundle.zip
+             ./awscli-bundle/install -b ~/bin/aws
