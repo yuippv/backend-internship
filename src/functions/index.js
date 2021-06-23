@@ -8,16 +8,13 @@ const ContentModel = require("../models/content.model");
 const QuestionModel = require("../models/questions.model");
 const AuthModel = require("../models/auth.model");
 
-const {
-  checkNumberInString
- 
-} = require("../functions/verifyState");
+const { checkNumberInString } = require("../functions/verifyState");
 
 var mongoose = require("mongoose");
+const valid_id = mongoose.Types.ObjectId.isValid;
 
 module.exports.findUserById = async (input) => {
-  //mongoose.Types.ObjectId.isValid ใช้เยอะ ประกาศตัวแปรดีกว่า
-  if (mongoose.Types.ObjectId.isValid(input)) {
+  if (valid_id(input)) {
     return await AuthModel.findOne({ _id: input, isDeleted: false });
   } else {
     throw {
@@ -28,31 +25,29 @@ module.exports.findUserById = async (input) => {
 };
 
 module.exports.updateUserById = async (payload, userId) => {
-  const { firstName, lastName,password } = payload;
-  if (!mongoose.Types.ObjectId.isValid(userId)) {
+  const { firstName, lastName, password } = payload;
+  if (!valid_id(userId)) {
     throw {
       message: "userid is not defined",
       status: 404,
     };
   }
-  console.log(isNaN(lastName) ,isNaN(firstName))
-  if(isNaN(lastName) && isNaN(firstName)) {
+  console.log(isNaN(lastName), isNaN(firstName));
+  if (isNaN(lastName) && isNaN(firstName)) {
     return AuthModel.findOneAndUpdate(
       { _id: userId },
       { firstName, lastName, password },
       { new: true, omitUndefined: true }
     );
   }
-  throw{
+  throw {
     message: "digit is not allowed in firstname or lastname",
     status: 404,
   };
-  
-  
 };
 
 module.exports.deleteUserById = async (userId) => {
-  if (!mongoose.Types.ObjectId.isValid(userId)) {
+  if (!valid_id(userId)) {
     throw {
       message: "userid is not defined",
       status: 404,
@@ -86,7 +81,7 @@ module.exports.createResultById = async (results, userid) => {
     category_id = results[i]["categoryId"];
     question_index = results[i]["questionIndex"];
     score = results[i]["score"];
-    console
+    console;
     if (category_id == 1) {
       category["Word Smart"] += score;
     } else if (category_id == 2) {
@@ -106,7 +101,6 @@ module.exports.createResultById = async (results, userid) => {
     } else {
       throw { message: "invalid category" };
     }
-    
   }
   return await UserResult.create({
     userid: userid,
@@ -123,7 +117,7 @@ module.exports.getResultUsers = async () => {
 };
 
 module.exports.getAdminById = async (input_id) => {
-  if (mongoose.Types.ObjectId.isValid(input_id)) {
+  if (valid_id(input_id)) {
     return await AdminModel.findOne({
       _id: input_id,
       isDeleted: false,
@@ -137,7 +131,6 @@ module.exports.getAdminById = async (input_id) => {
 };
 
 module.exports.getAllUsers = async () => {
-
   return await AuthModel.find({
     role: "user",
     isDeleted: false,
@@ -184,7 +177,7 @@ module.exports.getSortByTag = async (tag) => {
 };
 
 module.exports.findAdminById = async (input) => {
-  if (mongoose.Types.ObjectId.isValid(input)) {
+  if (valid_id(input)) {
     return await AuthModel.findOne({
       _id: input,
       role: "admin",
@@ -249,4 +242,32 @@ module.exports.postQuestion = async (input) => {
       status: 409,
     };
   }
+};
+
+module.exports.contentIsLiked = async (input_uid, input_content_id) => {
+  if (!valid_id(input_content_id)) {
+    throw {
+      message: "content not found",
+      status: 404,
+    };
+  }
+  const content_obj = await ContentModel.find({ _id: input_content_id });
+  const array = content_obj[0].uid_likes;
+  for (let i = 0; i < array.length; i++) {
+    if (array[i] == input_uid) {
+      throw {
+        message: "you already liked this post",
+        status: 409,
+      };
+    }
+  }
+  array.push(input_uid);
+
+  const content = await ContentModel.findOneAndUpdate(
+    { _id: input_content_id, isDeleted: false },
+    { uid_likes: array, $inc: { likes: 1 } },
+    { new: true }
+  );
+
+  return content;
 };
