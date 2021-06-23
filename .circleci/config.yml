@@ -15,13 +15,21 @@ jobs:
           command: npm build 
       - checkout
       - run:
-          name: deploy
+          name: install aws cli
           command: |
             curl "https://s3.amazonaws.com/aws-cli/awscli-bundle.zip" -o "awscli-bundle.zip"
             unzip awscli-bundle.zip
             ./awscli-bundle/install -b ~/bin/aws
-            PUBLIC_IP=$(curl ipinfo.io/ip)
-            AWS_REGION=ap-southeast-1
-            SG_ID=sg-084a022ccf9377168
-            ~/bin/aws ec2 authorize-security-group-ingress --region $AWS_REGION --group-id $SG_ID \
+      - run:
+          name: publie ip
+          command: PUBLIC_IP=$(curl ipinfo.io/ip)
+      - run:
+          name: aws region
+          command: AWS_REGION=ap-southeast-1
+      - run:
+          name: security group id
+          command: SG_ID=sg-084a022ccf9377168
+      - run:
+          name: ingress rule
+          command: ~/bin/aws ec2 authorize-security-group-ingress --region $AWS_REGION --group-id $SG_ID \
               --protocol tcp --port 22 --cidr $PUBLIC_IP/24
