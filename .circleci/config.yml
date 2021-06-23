@@ -9,6 +9,11 @@ jobs:
       - image: circleci/openjdk:8-jdk
     steps:
       - checkout
+      - run: npm install
+      - run:
+          name: build
+          command: npm build 
+      - checkout
       - run:
           name: Install aws CLI
           command: |
