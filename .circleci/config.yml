@@ -16,5 +16,5 @@ jobs:
             unzip awscli-bundle.zip
             ./awscli-bundle/install -b ~/bin/aws
       - run:
-	  name: Public IP of the current CircleCI runner
-	  command: PUBLIC_IP=$(curl ipinfo.io/ip)
+          name: Public IP of the current CircleCI runner
+          command: PUBLIC_IP=$(curl ipinfo.io/ip)
