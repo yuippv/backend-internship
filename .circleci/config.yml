@@ -33,7 +33,6 @@ jobs:
           name: ingress rule
           command: |
               ~/bin/aws ec2 authorize-security-group-ingress \
-              --region $AWS_REGION \
               --group-id $SG_ID \
               --protocol tcp \
               --port 22 \
