@@ -8,10 +8,7 @@ const ContentModel = require("../models/content.model");
 const QuestionModel = require("../models/questions.model");
 const AuthModel = require("../models/auth.model");
 
-const {
-  checkNumberInString
- 
-} = require("../functions/verifyState");
+const { checkNumberInString } = require("../functions/verifyState");
 
 var mongoose = require("mongoose");
 
@@ -28,27 +25,18 @@ module.exports.findUserById = async (input) => {
 };
 
 module.exports.updateUserById = async (payload, userId) => {
-  const { firstName, lastName,password } = payload;
+  const { firstName, lastName, password } = payload;
   if (!mongoose.Types.ObjectId.isValid(userId)) {
     throw {
       message: "userid is not defined",
       status: 404,
     };
   }
-  console.log(isNaN(lastName) ,isNaN(firstName))
-  if(isNaN(lastName) && isNaN(firstName)) {
-    return AuthModel.findOneAndUpdate(
-      { _id: userId },
-      { firstName, lastName, password },
-      { new: true, omitUndefined: true }
-    );
-  }
-  throw{
-    message: "digit is not allowed in firstname or lastname",
-    status: 404,
-  };
-  
-  
+  return AuthModel.findOneAndUpdate(
+    { _id: userId },
+    { firstName, lastName, password },
+    { new: true, omitUndefined: true }
+  );
 };
 
 module.exports.deleteUserById = async (userId) => {
@@ -86,7 +74,7 @@ module.exports.createResultById = async (results, userid) => {
     category_id = results[i]["categoryId"];
     question_index = results[i]["questionIndex"];
     score = results[i]["score"];
-    console
+    console;
     if (category_id == 1) {
       category["Word Smart"] += score;
     } else if (category_id == 2) {
@@ -106,7 +94,6 @@ module.exports.createResultById = async (results, userid) => {
     } else {
       throw { message: "invalid category" };
     }
-    
   }
   return await UserResult.create({
     userid: userid,
@@ -137,7 +124,6 @@ module.exports.getAdminById = async (input_id) => {
 };
 
 module.exports.getAllUsers = async () => {
-
   return await AuthModel.find({
     role: "user",
     isDeleted: false,
@@ -178,6 +164,26 @@ module.exports.getAllContents = async () => {
 };
 
 module.exports.getSortByTag = async (tag) => {
+  tags = [
+    "Word Smart",
+    "Logic Smart",
+    "Picture Smart",
+    "Body Smart",
+    "Nature Smart",
+    "Self Smart",
+    "People Smart",
+    "Music Smart",
+  ];
+   tags = tags.map(x => {return x.toLowerCase();})
+   tag = tag.map(x => {return x.toLowerCase();})
+
+  tag.map((x) =>
+    tags.indexOf(x) == -1
+      ? (function () {
+          throw { message: "Out of Tag", status: 404 };
+        })()
+      : console.log("pass")
+  );
   return await ContentModel.find({
     tag: { $in: tag },
   });
