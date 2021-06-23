@@ -2,9 +2,9 @@ require("dotenv").config();
 require("./src/middlewares/auth");
 const express = require("express");
 const multer = require("multer");
-const adminRoute = require("./src/routes/admin");
-const userRoutes = require("./src/routes/users");
-const authRoutes = require("./src/routes/auth");
+const adminRoute = require("./src/Routes/admin");
+const userRoutes = require("./src/Routes/users");
+const authRoutes = require("./src/Routes/auth");
 const connectToDatabase = require("./src/utils/mongo");
 const app = express();
 const port = 5000;
@@ -54,6 +54,12 @@ app.use("/", authRoutes);
 
 app.use(userRoutes);
 app.use(adminRoute);
+app.use((err, req, res, next) => {
+  console.log("ERROR: ", err);
+  res
+    .status(err.status || 500)
+    .json({ message: "System fail!", error: err.message, status: err.status });
+});
 
 app.use((err, req, res, next) => {
   console.log("ERROR: ", err);
