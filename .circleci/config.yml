@@ -22,7 +22,8 @@ jobs:
            echo $AWS_REGION
            echo $AWS_SECRET_ACCESS_KEY
            echo $SG_ID
-           echo $(curl ipinfo.io/ip)
+           PUBLIC_IP=$(curl ipinfo.io/ip)
+           echo $PUBLIC_IP
       - run:
           name: install aws cli
           command: |
