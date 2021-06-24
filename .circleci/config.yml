@@ -28,7 +28,9 @@ jobs:
             aws configure set default.region "$AWS_DEFAULT_REGION"
       - run:
           name: publie ip
-          command: PUBLIC_IP=$(curl ipinfo.io/ip)
+          command: |
+            PUBLIC_IP=$(curl ipinfo.io/ip)
+            echo PUBLIC_IP
       - run:
           name: ingress rule
-          command: ~/bin/aws ec2 authorize-security-group-ingress --region $AWS_REGION --group-id $SG_ID --protocol tcp --port 22 --cidr $PUBLIC_IP\32
+          command: ~/bin/aws ec2 authorize-security-group-ingress --region $AWS_REGION --group-id $SG_ID --protocol tcp --port 22 --cidr $PUBLIC_IP/32
