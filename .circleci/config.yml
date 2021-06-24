@@ -39,7 +39,7 @@ jobs:
       - run:
           name: public ip
           command: |
-            PUBLIC_IP=$(curl ipinfo.io/ip)
+            export PUBLIC_IP=$(curl ipinfo.io/ip)
       - run:
           name: ingress rule
           command: echo "~/bin/aws ec2 authorize-security-group-ingress --region $AWS_REGION --group-id $SG_ID --protocol tcp --port 22 --cidr '$PUBLIC_IP/32'"
