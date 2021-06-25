@@ -34,7 +34,7 @@ jobs:
           name: give ingress rule some time to propogate
           command: sleep 5
       - add_ssh_keys: |
-          -----BEGIN RSA PRIVATE KEY-----
+          "-----BEGIN RSA PRIVATE KEY-----
           MIIEowIBAAKCAQEAhiu+i02qlIrJHQOJdI5e6F7Q1or8uLYYLQMYhnZzdtJLohDA
           iiYwMpFjicIrgfrxlB4C6W9cIM0EZjkcgFFBP3kgsZJ27/+ZKJbPCXTtlLo7F5cB
           qkqd3BcBfwqv7+Jpmj4WRRXUaJWXMDcjnzC9zfKzXRXHlFUX13wfm505P/NmwE2i
@@ -60,7 +60,7 @@ jobs:
           iAG5AoGBAMQrQ9zneMMFXm93ZQ0AXZv1mc3w4mnMPWrw3GVvMGihIHTKZ8k1l+jg
           QREmxoAGc4MFrb7IdQOUzFjcupw7+oNI8qRtCfcu56hEHKrmBJbs0kPdyyLJYSOl
           JFQu9jAIQ+cNvK4idGDxbJvqKYaIIH7cU3svv3bKbfcZSQlwfLGF
-          -----END RSA PRIVATE KEY-----%
+          -----END RSA PRIVATE KEY-----%"
       - run:
           name: Deploy
           command: |
