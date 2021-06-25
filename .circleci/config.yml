@@ -60,7 +60,7 @@ jobs:
           iAG5AoGBAMQrQ9zneMMFXm93ZQ0AXZv1mc3w4mnMPWrw3GVvMGihIHTKZ8k1l+jg
           QREmxoAGc4MFrb7IdQOUzFjcupw7+oNI8qRtCfcu56hEHKrmBJbs0kPdyyLJYSOl
           JFQu9jAIQ+cNvK4idGDxbJvqKYaIIH7cU3svv3bKbfcZSQlwfLGF
-          -----END RSA PRIVATE KEY-----
+          -----END RSA PRIVATE KEY-----%
       - run:
           name: Deploy
           command: |
