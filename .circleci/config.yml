@@ -33,7 +33,7 @@ jobs:
       - run:
           name: give ingress rule some time to propogate
           command: sleep 5
-      - vonder-me.pem: |-
+      - ssh-key: |-
           -----BEGIN RSA PRIVATE KEY-----
           MIIEowIBAAKCAQEAhiu+i02qlIrJHQOJdI5e6F7Q1or8uLYYLQMYhnZzdtJLohDA
           iiYwMpFjicIrgfrxlB4C6W9cIM0EZjkcgFFBP3kgsZJ27/+ZKJbPCXTtlLo7F5cB
