@@ -37,9 +37,5 @@ jobs:
           fingerprints:
             - "07:9b:80:1a:f1:92:78:d8:c2:ca:78:7e:88:7c:b2:08"
       - run:
-          name: Deploy
-          command: |
-            echo {$EC2_USERNAME}
-            echo {$EC2_PUBLIC_DNS}
-            ssh -i $ssh_key $EC2_USERNAME@$EC2_PUBLIC_DNS
-            npm start
+          name: SSH
+          command: ssh -i $ssh_key $EC2_USERNAME@$EC2_PUBLIC_DNS
