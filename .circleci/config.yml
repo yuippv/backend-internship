@@ -33,6 +33,14 @@ jobs:
       - run:
           name: give ingress rule some time to propogate
           command: sleep 5
+      - add_ssh_keys:
+          fingerprints:
+            - "07:9b:80:1a:f1:92:78:d8:c2:ca:78:7e:88:7c:b2:08"
       - run:
-          name: SSH
-          command: ssh -i "$vonder-me.pem" $EC@_USERNAME@$EC2_PUBLIC_DNS
+          name: bruh
+          command: echo $ssh_keys
+      - run:
+          name: Deploy
+          command: |
+            ssh -i "$vonder-me.pem" $EC@_USERNAME@$EC2_PUBLIC_DNS
+            npm start
