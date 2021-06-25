@@ -31,7 +31,7 @@ jobs:
             echo 'export PUBLIC_IP=$(curl ipinfo.io/ip)' >> $BASH_ENV
       - run:
           name: ingress rule
-          command: ~/bin/aws ec2 authorize-security-group-ingress --region $AWS_REGION --group-id $SG_ID --protocol tcp --port 22 --cidr $PUBLIC_IP/32
+          command: aws ec2 authorize-security-group-ingress --region $AWS_REGION --group-id $SG_ID --protocol tcp --port 22 --cidr $PUBLIC_IP/32
       - run:
           name: give ingress rule some time to propogate
           command: sleep 5
@@ -46,4 +46,4 @@ jobs:
             touch hello-world.txt
       - run:
           name: remove ingress rule
-          command: ~/bin/aws ec2 revoke-security-group-ingress --region $AWS_REGION --group-id $SG_ID --protocol tcp --port 22 --cidr $PUBLIC_IP/32
+          command: aws ec2 revoke-security-group-ingress --region $AWS_REGION --group-id $SG_ID --protocol tcp --port 22 --cidr $PUBLIC_IP/32
