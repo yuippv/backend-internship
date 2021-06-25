@@ -30,7 +30,7 @@ jobs:
             echo 'export PUBLIC_IP=$(curl ipinfo.io/ip)' >> $BASH_ENV
       - run:
           name: ingress rule
-          command: ~/bin/aws ec2 authorize-security-group-ingress --region $AWS_REGION --group-id $SG_ID --protocol tcp --port 22 --cidr $3.86.163.150/32/32
+          command: ~/bin/aws ec2 authorize-security-group-ingress --region $AWS_REGION --group-id $SG_ID --protocol tcp --port 22 --cidr 3.86.163.150/32
       - run:
           name: give ingress rule some time to propogate
           command: sleep 5
