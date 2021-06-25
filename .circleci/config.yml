@@ -1,3 +1,4 @@
+
 version: 2
 general:
   branches:
@@ -38,4 +39,4 @@ jobs:
             - "07:9b:80:1a:f1:92:78:d8:c2:ca:78:7e:88:7c:b2:08"
       - run:
           name: SSH
-          command: ssh $ssh_key $EC2_USERNAME@$EC2_PUBLIC_DNS
+          command: ssh  $EC2_USERNAME@$EC2_PUBLIC_DNS
