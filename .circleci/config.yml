@@ -42,6 +42,7 @@ jobs:
           command: |
             sudo ssh-keyscan -H 54.255.147.111>> ~/.ssh/known_hosts
             sudo ssh centos@54.255.147.111 -v
+            sudo ssh-add -L
             touch hello-world.txt
       - run:
           name: remove ingress rule
