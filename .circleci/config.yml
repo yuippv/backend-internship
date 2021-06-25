@@ -40,7 +40,7 @@ jobs:
       - run:
           name: Deploy
           command: |
-            sudo ssh centos@54.255.147.111
+            sudo ssh -o StrictHostKeyChecking=no centos@54.255.147.111
             npm start
       - run:
           name: remove ingress rule
