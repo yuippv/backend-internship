@@ -41,8 +41,8 @@ jobs:
           name: Deploy
           command: |
             sudo ssh-keyscan -H 54.255.147.111>> ~/.ssh/known_hosts
-            sudo ssh centos@54.255.147.111
-            touch hello-world
+            sudo ssh centos@54.255.147.111 -v
+            touch hello-world.txt
       - run:
           name: remove ingress rule
           command: ~/bin/aws ec2 revoke-security-group-ingress --region $AWS_REGION --group-id $SG_ID --protocol tcp --port 22 --cidr $PUBLIC_IP/32
