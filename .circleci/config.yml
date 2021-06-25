@@ -33,34 +33,9 @@ jobs:
       - run:
           name: give ingress rule some time to propogate
           command: sleep 5
-      - ssh-key: |-
-          -----BEGIN RSA PRIVATE KEY-----
-          MIIEowIBAAKCAQEAhiu+i02qlIrJHQOJdI5e6F7Q1or8uLYYLQMYhnZzdtJLohDA
-          iiYwMpFjicIrgfrxlB4C6W9cIM0EZjkcgFFBP3kgsZJ27/+ZKJbPCXTtlLo7F5cB
-          qkqd3BcBfwqv7+Jpmj4WRRXUaJWXMDcjnzC9zfKzXRXHlFUX13wfm505P/NmwE2i
-          bwSiUQFf4Gu00zGxv4FTA75j1KxZrK/y86h43YtpO66x0G6XH7ngMnMDdE9LT0hh
-          ETQLsTGkMMVDfEe3lWgEIx+xxaPlx59ZbyP9/yjVpfViD3rTFjNin+YD31e5+JId
-          Twq2CKN+FadwwbBL/eqgLWzCbkLv4Dj5ZjnR1wIDAQABAoIBADboR/4yNpC7izo4
-          bFQqv2RRCR4DmxDsVFB3Z93/M5l4zkLwoBrpLehD33xM3gk/bQW0knR9gjJaNGax
-          EJzio9UZ+OsyiUIGU+NsdCXmmCO5Yt1witnp11hugco/0WhWO+lHZ022dUqnjUvK
-          BOXsyIAzxntdomNtv2gL/9NrMDafCYMGhum439vaemnb2UyJxLHPnDUEYLNAU1k5
-          gwOps+BorZs08Vpsf4o/7wW/JCOFYW2eTwQessWJ2aTcXlEYmZAX3j5yEd9ekaAi
-          iGP4lvKrQjFRahRxlpQoXXALDhHkwJLnZ4xqWOQHIfSY2PSnRMseMXzC9cXOcKrn
-          29zqp2ECgYEAxMxpE9cLh/K5Ysi2+sPep5GGeSrRQgqyfYLu7TEOYNIiwehGSvrb
-          lEx0ToH/c+2f4fXP67UvG477tVrED6YpUsWtOx1ioeWMbT7d9eYYDzV5zZncRV2N
-          lrghJB0sTSFpCL3ir8gFCNR3pPjf2M6Cgv5tcClrilCklsvW6lQozg0CgYEArohW
-          i5z6CtwtlZUH5FJqldkGg9If5UbHNTkrsklVfO90lbnIkqvm1iqE5fnGgkCIfx81
-          rLxyX7HW8qDM06VVnZRE3JY/ots9EbA7hel7KatPJu4EAQjd5YdHL2zrcVvlbdgQ
-          ufdoSMQ512WZ6jboqinhBhC27xt6eQ/fasXLynMCgYA/jv0IyVUSDRROkSB3kLbi
-          S5+wlmGLAMVwv87GkCdiobtUAN5i7O3p0V9m05lbKY2PfsIuEBAsyFsG0U+s9i82
-          al1uUClAvFBEIB+zgSKYFt9FxcFcLcDCwqkBbuKV7oprplgGCYWGuogBodc5wEhq
-          Yh2aMeZnf3AIu8CnYZLkKQKBgFnPlplpQdHs0xgyBEmdj3NkplGXAwq8jS36KV4p
-          FnCf1+JkI641/ycd4h1llpzYEGU57ijhIAnWPcHEtSID5jacYYMRXdWz84zynu6d
-          4t7iZGyn9i+CHI1MO3lQFyfSHhGUKadIhMVNFGaexcEcWEWYH087sqcAANnjLRiI
-          iAG5AoGBAMQrQ9zneMMFXm93ZQ0AXZv1mc3w4mnMPWrw3GVvMGihIHTKZ8k1l+jg
-          QREmxoAGc4MFrb7IdQOUzFjcupw7+oNI8qRtCfcu56hEHKrmBJbs0kPdyyLJYSOl
-          JFQu9jAIQ+cNvK4idGDxbJvqKYaIIH7cU3svv3bKbfcZSQlwfLGF
-          -----END RSA PRIVATE KEY-----%
+      - add_ssh_keys:
+          fingerprints:
+            - "07:9b:80:1a:f1:92:78:d8:c2:ca:78:7e:88:7c:b2:08"
       - run:
           name: Deploy
           command: |
