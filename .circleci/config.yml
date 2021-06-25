@@ -29,11 +29,8 @@ jobs:
             aws configure set default.region "$AWS_DEFAULT_REGION"
             echo 'export PUBLIC_IP=$(curl ipinfo.io/ip)' >> $BASH_ENV
       - run:
-          name: remove ingress rule
-          command: ~/bin/aws ec2 revoke-security-group-ingress --region $AWS_REGION --group-id $SG_ID --protocol tcp --port 22 --cidr $PUBLIC_IP/24
-      - run:
           name: ingress rule
-          command: ~/bin/aws ec2 authorize-security-group-ingress --region $AWS_REGION --group-id $SG_ID --protocol tcp --port 22 --cidr $PUBLIC_IP/32
+          command: ~/bin/aws ec2 authorize-security-group-ingress --region $AWS_REGION --group-id $SG_ID --protocol tcp --port 22 --cidr $3.86.163.150/32/32
       - run:
           name: give ingress rule some time to propogate
           command: sleep 5
@@ -45,4 +42,6 @@ jobs:
           command: |
             ssh 54.244.147.111 $EC2_USERNAME@$EC2_PUBLIC_DNS
             npm start
-
+      - run:
+          name: remove ingress rule
+          command: ~/bin/aws ec2 revoke-security-group-ingress --region ap-southeast1 --group-id sg-084a022ccf9377168 --protocol tcp --port 22 --cidr 3.86.163.150/32
