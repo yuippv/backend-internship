@@ -40,7 +40,7 @@ jobs:
       - run:
           name: SSH
           command: |
-            ssh $EC2_USERNAME@$EC2_PUBLIC_DNS
+            ssh -i 54.255.147.111 $EC2_USERNAME@$EC2_PUBLIC_DNS
             npm start
       - run:
           name: remove ingress rule
