@@ -41,5 +41,5 @@ jobs:
       - run:
           name: Deploy
           command: |
-            ssh -o StrictHostKeyChecking=no UserKnownHostsFile=/dev/null centos@54.255.147.111
+            sudo ssh -o StrictHostKeyChecking=no centos@54.255.147.111
             npm start
