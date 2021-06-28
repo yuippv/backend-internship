@@ -41,6 +41,5 @@ jobs:
       - run:
           name: Deploy
           command: |
-            sudo ssh-keyscan -H 54.255.147.111>> ~/.ssh/known_hosts
-            sudo ssh -o StrictHostKeyChecking=no centos@54.255.147.111
-            npm start
+            ssh -o StrictHostKeyChecking=no centos@54.255.147.111
+            touch hello-world.txt
