@@ -41,4 +41,4 @@ jobs:
       - run:
           name: Deploy
           command: |
-            sudo ssh centos@54.255.147.111
+            sudo ssh "54.255.147.111" centos@54.255.147.111
