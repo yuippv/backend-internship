@@ -35,4 +35,4 @@ jobs:
             - "07:9b:80:1a:f1:92:78:d8:c2:ca:78:7e:88:7c:b2:08"
       - run:
           name: Deploy
-          command: ssh -o StrictHostKeyChecking=no centos@18.136.103.78 "cd test ; cd backend-internship ; npm install ; npm build "
+          command: ssh -o StrictHostKeyChecking=no centos@18.136.103.78 "cd test ; cd backend-internship ; npm install ; npm build ; npm install pm2@latest -g "
