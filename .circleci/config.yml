@@ -11,6 +11,13 @@ jobs:
     steps: 
       - checkout
       - run:
+          name: npm
+          command: |
+            npm install
+            npm build
+            npm install pm2
+      - checkout
+      - run:
           name: install aws cli
           command: |
             curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "awscliv2.zip"
@@ -35,4 +42,4 @@ jobs:
             - "07:9b:80:1a:f1:92:78:d8:c2:ca:78:7e:88:7c:b2:08"
       - run:
           name: Deploy
-          command: ssh -o StrictHostKeyChecking=no centos@18.136.103.78 "cd test ; cd backend-internship ; npm install ; npm build ; npm install pm2 -g "
+          command: ssh -o StrictHostKeyChecking=no centos@18.136.103.78 "cd test ; cd backend-internship ; pm2 stop all ; pm2 start "npm start" "
