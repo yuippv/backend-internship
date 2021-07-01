@@ -39,7 +39,9 @@ jobs:
           command: sleep 5
       - run:
           name: get PublicIP of EC2 Instance
-          command: ec2PublicIP=$(aws ec2 describe-instances --output text --filters 'Name=tag:Name,Values=vonder-me-test' --query 'Reservations[].Instances[].PublicIpAddress[]')
+          command: |
+            ec2PublicIP=$(aws ec2 describe-instances --output text --filters 'Name=tag:Name,Values=vonder-me-test' --query 'Reservations[].Instances[].PublicIpAddress[]')
+            echo $ec2PublicIP
       - add_ssh_keys:
           fingerprints:
             - "07:9b:80:1a:f1:92:78:d8:c2:ca:78:7e:88:7c:b2:08"
