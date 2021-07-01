@@ -40,11 +40,10 @@ jobs:
       - run:
           name: get PublicIP of EC2 Instance
           command: |
-            ec2publicIP=$(aws ec2 describe-instances --output text --filters 'Name=tag:Name,Values=vonder-me-test' --query 'Reservations[].Instances[].PublicIpAddress[]')
-            echo $ec2publicIP
+            ec2PublicIP=$(aws ec2 describe-instances --output text --filters 'Name=tag:Name,Values=vonder-me-test' --query 'Reservations[].Instances[].PublicIpAddress[]')
       - add_ssh_keys:
           fingerprints:
             - "07:9b:80:1a:f1:92:78:d8:c2:ca:78:7e:88:7c:b2:08"
       - run:
           name: Deploy
-          command: ssh -o StrictHostKeyChecking=no $EC2_USERNAME@$ec2publicIP "cd test ; cd backend-internship ; pm2 stop all ; pm2 start 'npm start'"
+          command: ssh -o StrictHostKeyChecking=no $EC2_USERNAME@$ec2PublicIP "cd test ; cd backend-internship ; pm2 stop all ; pm2 start 'npm start'"
