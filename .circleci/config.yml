@@ -40,7 +40,8 @@ jobs:
       - run:
           name: Deploy
           command: ssh -o StrictHostKeyChecking=no $EC2_USERNAME@$ec2PublicIP "cd test ; cd backend-internship ; pm2 stop all ; pm2 delete all ; git pull ; npm install ; pm2 start 'npm start'"
-          environment: DB_CONNECTION=mongodb+srv://vonderintern21:vonderintern112@cluster0.7v210.mongodb.net/test
+          environment: 
+            DB_CONNECTION: mongodb+srv://vonderintern21:vonderintern112@cluster0.7v210.mongodb.net/test
             
 
 
