@@ -38,10 +38,13 @@ jobs:
           fingerprints:
             - "07:9b:80:1a:f1:92:78:d8:c2:ca:78:7e:88:7c:b2:08"
       - run:
+          name: Environment
+          command: |
+            echo 'export DB_CONNECTION=mongodb+srv://vonderintern21:vonderintern112@cluster0.7v210.mongodb.net/test' >> $BASH_ENV
+            echo 'export Secret_Key = "secretApp"' >> $BASH_ENV
+      - run:
           name: Deploy
           command: ssh -o StrictHostKeyChecking=no $EC2_USERNAME@$ec2PublicIP "cd test ; cd backend-internship ; pm2 stop all ; pm2 delete all ; git pull ; npm install ; pm2 start 'npm start'"
-          environment: 
-            DATABASE_URL: mongodb+srv://vonderintern21:vonderintern112@cluster0.7v210.mongodb.net/test
-            
-
-
+          environment:
+            - DB_CONNECTION=${DB_CONNECTION}
+            - Secret_Key=${Secret_Key}
