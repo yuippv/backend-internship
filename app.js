@@ -58,7 +58,7 @@ app.use((err, req, res, next) => {
   console.log("ERROR: ", err);
   res
     .status(err.status || 500)
-    .json({ message: "System fail!", error: err.message, status: err.status });
+    .json({ message: "Systemmmmmmmmm fail!", error: err.message, status: err.status });
 });
 
 app.use((err, req, res, next) => {
