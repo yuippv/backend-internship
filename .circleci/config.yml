@@ -44,7 +44,4 @@ jobs:
             echo 'export Secret_Key = "secretApp"' >> $BASH_ENV
       - run:
           name: Deploy
-          command: ssh -o StrictHostKeyChecking=no $EC2_USERNAME@$ec2PublicIP "cd test ; cd backend-internship ; pm2 stop all ; pm2 delete all ; git pull ; npm install ; pm2 start 'npm start'"
-          environment:
-            - DB_CONNECTION=${DB_CONNECTION}
-            - Secret_Key=${Secret_Key}
+          command: ssh -o StrictHostKeyChecking=no $EC2_USERNAME@$ec2PublicIP "cd test ; cd backend-internship ; pm2 stop all ; pm2 delete all ; git pull ; npm install ; npm install dotenv ; pm2 start 'npm start'"
