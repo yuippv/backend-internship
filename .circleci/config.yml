@@ -44,4 +44,4 @@ jobs:
             echo 'export Secret_Key = "secretApp"' >> $BASH_ENV
       - run:
           name: Deploy
-          command: ssh -o StrictHostKeyChecking=no $EC2_USERNAME@$ec2PublicIP "bash ./deploy.sh"
+          command: ssh -o StrictHostKeyChecking=no $EC2_USERNAME@$ec2PublicIP "./deploy.sh"
