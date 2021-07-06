@@ -41,8 +41,8 @@ jobs:
           name: Environment
           command: echo 'export DB="DB_CONNECTION=mongodb+srv://vonderintern21:vonderintern112@cluster0.7v210.mongodb.net/test"' >> $BASH_ENV
                    echo 'export Secret_Key="Secret_Key = "secretApp""' >> $BASH_ENV
-                   echo ${DB}
-                   echo ${Secret_Key}
+                   echo $DB
+                   echo $Secret_Key
       - run:
           name: Deploy
           command: ssh -o StrictHostKeyChecking=no $EC2_USERNAME@$ec2PublicIP "cd test ; cd backend-internship ; git pull ; sudo bash ./deploy.sh"
