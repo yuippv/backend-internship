@@ -1,19 +1,43 @@
 const express = require("express");
 const router = express.Router();
 const usersController = require("../controllers/usersController");
+const auth = require("../middlewares/authVerify");
+const multer = require("multer");
 
-router.post("/user", usersController.createUsers);
-//_id กับ id ?
-router.get("/user/:_id", usersController.findUserById);
-router.put("/user/:_id", usersController.updateUserById);
-router.delete("/user/:_id", usersController.deleteUserById);
-router.post("/user/result/:_id", usersController.createResultById);
-router.get("/user", usersController.getAllUsers);
-router.post("/comment", usersController.postComment);
-router.post("/guest", usersController.createGuest);
-router.get("/user/result/:_id", usersController.getResultById);
-router.post("/user/content", usersController.postContent);
-router.get("/user/content/get", usersController.getAllContents);
-router.post("/user/content/tag", usersController.getSortByTag);
+router.post(
+  "/images",
+  auth.authMiddleware,
+  multer({ dest: "uploads/" }).array("photo", 10),
+  usersController.postImage
+);
+
+router.get("/user/find", auth.authMiddleware, usersController.findUserById);
+router.put("/user", auth.authMiddleware, usersController.updateUserById);
+router.delete("/user", auth.authMiddleware, usersController.deleteUserById);
+router.post(
+  "/user/result",
+  auth.authMiddleware,
+  usersController.createResultById
+);
+router.get("/user", auth.authMiddleware, usersController.getAllUsers);
+router.post("/comment", auth.authMiddleware, usersController.postComment);
+router.post("/guest", auth.authMiddleware, usersController.createGuest);
+router.get("/user/result", auth.authMiddleware, usersController.getResultById);
+router.post("/user/content", auth.authMiddleware, usersController.postContent);
+router.get(
+  "/user/content/get",
+  auth.authMiddleware,
+  usersController.getAllContents
+);
+router.post(
+  "/user/content/tag",
+  auth.authMiddleware,
+  usersController.getSortByTag
+);
+router.put(
+  "/user/content",
+  auth.authMiddleware,
+  usersController.contentIsLiked
+);
 
 module.exports = router;
